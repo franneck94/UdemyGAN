@@ -7,6 +7,7 @@ Chapter4_GANTheory/
 Chapter5_GANCode/lectures/
 Chapter6_AdversarialAttack/lectures/
 Chapter7_Autoencoder/lectures/
+Chapter5_GANCode/*/images/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
