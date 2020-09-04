@@ -1,5 +1,12 @@
 models/
+.vscode/
 ressources/
+Chapter1_Introduction/
+Chapter3_DeepLearning/lectures/
+Chapter4_GANTheory/
+Chapter5_GANCode/lectures/
+Chapter6_AdversarialAttack/lectures/
+Chapter7_Autoencoder/lectures/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
