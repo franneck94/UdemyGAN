@@ -1,4 +1,4 @@
-# C Komplettkurs: Praxisnahe Programmierung für C Einsteiger
+# Deep Learning: Generative Neuronale Netzwerke mit Python
 
 Dies ist der Code zu meinem Udemy Kurs:
-*C Komplettkurs: Praxisnahe Programmierung für C Einsteiger* von Jan Schaffranek.
+*Deep Learning: Generative Neuronale Netzwerke mit Python* von Jan Schaffranek.
