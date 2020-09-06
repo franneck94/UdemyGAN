@@ -1,9 +1,16 @@
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import *
-from tensorflow.keras.optimizers import *
+from tensorflow.keras.layers import (Activation,
+                                     BatchNormalization,
+                                     Conv2D,
+                                     Dense,
+                                     Dropout,
+                                     Flatten,
+                                     MaxPooling2D)
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import Adam
 
-# Load CIFAR10 dataset
-from cifarData import *
+from .cifarData import CIFAR10
+
+
 cifar_data = CIFAR10()
 x_train, y_train = cifar_data.get_train_set()
 x_test, y_test = cifar_data.get_test_set()
@@ -11,21 +18,21 @@ x_test, y_test = cifar_data.get_test_set()
 # Define the CNN
 model = Sequential()
 # Conv Block 1
-model.add(Conv2D(32, (3,3), input_shape=(32,32,3), padding="same"))
-model.add(Conv2D(64, (3,3), padding="same"))
-model.add(MaxPooling2D(pool_size=(2,2))) #16x16
+model.add(Conv2D(32, (3, 3), input_shape=(32, 32, 3), padding="same"))
+model.add(Conv2D(64, (3, 3), padding="same"))
+model.add(MaxPooling2D(pool_size=(2, 2)))  # 16x16
 model.add(Activation("relu"))
 model.add(BatchNormalization())
 # Conv Block 2
-model.add(Conv2D(128, (3,3), padding="same"))
-model.add(Conv2D(256, (3,3), padding="same"))
-model.add(MaxPooling2D(pool_size=(2,2))) #8x8
+model.add(Conv2D(128, (3, 3), padding="same"))
+model.add(Conv2D(256, (3, 3), padding="same"))
+model.add(MaxPooling2D(pool_size=(2, 2)))  # 8x8
 model.add(Activation("relu"))
 model.add(BatchNormalization())
 # Conv Block 3
-model.add(Conv2D(512, (3,3), padding="same"))
-model.add(Conv2D(1024, (3,3), padding="same"))
-model.add(MaxPooling2D(pool_size=(2,2))) #4x4
+model.add(Conv2D(512, (3, 3), padding="same"))
+model.add(Conv2D(1024, (3, 3), padding="same"))
+model.add(MaxPooling2D(pool_size=(2, 2)))  # 4x4
 model.add(Activation("relu"))
 model.add(BatchNormalization())
 # Fully connected layer 1

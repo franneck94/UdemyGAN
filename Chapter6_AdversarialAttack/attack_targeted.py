@@ -1,16 +1,13 @@
 import os
 
 import numpy as np
-import matplotlib.pyplot as plt
-
 import tensorflow as tf
-from tensorflow.keras.models import *
-from tensorflow.keras.layers import *
-from tensorflow.keras.optimizers import *
+from tensorflow.keras.optimizers import Adam
 
-from mnistCnn import *
-from mnistData import *
-from plotting import *
+from .mnistCnn import build_cnn
+from .mnistData import MNIST
+from .plotting import plot_img
+
 
 mnistData = MNIST()
 x_train, y_train = mnistData.get_train_set()
@@ -18,6 +15,7 @@ x_test, y_test = mnistData.get_test_set()
 
 PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGANKurs")
 MODEL_PATH = os.path.join(PATH, "models")
+
 
 def adversarial_noise(model, image, label):
     loss_object = tf.keras.losses.CategoricalCrossentropy()
@@ -31,14 +29,15 @@ def adversarial_noise(model, image, label):
     signed_grad = tf.sign(gradient)
     return signed_grad
 
+
 if __name__ == "__main__":
     cnn = build_cnn()
 
     lr = 0.0005
     optimizer = Adam(lr=lr)
     cnn.compile(
-        loss="categorical_crossentropy", 
-        optimizer=optimizer, 
+        loss="categorical_crossentropy",
+        optimizer=optimizer,
         metrics=["accuracy"])
 
     # cnn.fit(x_train, y_train, verbose=1,
@@ -56,7 +55,7 @@ if __name__ == "__main__":
     y_pred = cnn.predict(image)[0]
     print("Right class: ", true_label_idx)
     print("Prob. right class: ", y_pred[true_label_idx])
-    
+
     eps = 0.001
     image_adv = tf.convert_to_tensor(image, dtype=tf.float32)
     target_label_idx = 9

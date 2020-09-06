@@ -1,6 +1,6 @@
-from tensorflow.keras.models import *
-from tensorflow.keras.layers import *
-from tensorflow.keras.optimizers import *
+from tensorflow.keras.layers import Activation, Dense, Flatten, Input, LeakyReLU
+from tensorflow.keras.models import Model, Sequential
+
 
 def build_discriminator(img_shape):
     model = Sequential()

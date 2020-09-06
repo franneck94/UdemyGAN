@@ -1,6 +1,7 @@
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras.utils import to_categorical
 
+
 class MNIST:
     def __init__(self):
         (self.x_train, self.y_train), (self.x_test, self.y_test) = mnist.load_data()

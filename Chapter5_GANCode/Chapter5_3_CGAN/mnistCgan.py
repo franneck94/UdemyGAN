@@ -5,24 +5,25 @@ import matplotlib.pyplot as plt
 
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
+from tensorflow.keras.layers import Input
+from tensorflow.keras.models import Model
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.utils import to_categorical
 
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import *
-from tensorflow.keras.optimizers import *
+from .mnistCganGenerator import build_generator
+from .mnistCganDiscriminator import build_discriminator
+from .mnistData import MNIST
 
-### Bug-Fix for TensorFlow 2
+
 def _check_trainable_weights_consistency(self):
     return
 Model._check_trainable_weights_consistency = _check_trainable_weights_consistency
- 
-from mnistCganGenerator import *
-from mnistCganDiscriminator import *
-from mnistData import *
+
 
 PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGANKurs")
 IMAGES_PATH = os.path.join(PATH, "Chapter5_GANCode/Chapter5_3_CGAN/images")
 
-# CGAN Model Class
+
 class CGAN():
     def __init__(self):
         # Model parameters
@@ -50,7 +51,7 @@ class CGAN():
         d_pred = self.discriminator([img, label])
         self.combined = Model([noise, label], d_pred)
         self.combined.compile(
-            loss='binary_crossentropy', 
+            loss='binary_crossentropy',
             optimizer=optimizer)
 
     def train(self, epochs, batch_size=128, sample_interval=50):
@@ -82,8 +83,8 @@ class CGAN():
             g_loss = self.combined.train_on_batch([noise, sampled_labels], valid)
             # SAVE PROGRESS
             if (epoch % sample_interval) == 0:
-                print ("%d [D loss: %f, acc.: %.2f%%] [G loss: %f]" % 
-                       (epoch, d_loss[0], 100*d_loss[1], g_loss))
+                print("%d [D loss: %f, acc.: %.2f%%] [G loss: %f]" %
+                      (epoch, d_loss[0], 100 * d_loss[1], g_loss))
                 self.sample_images(epoch)
 
     # Save sample images
@@ -98,12 +99,13 @@ class CGAN():
         cnt = 0
         for i in range(r):
             for j in range(c):
-                axs[i,j].imshow(gen_imgs[cnt, :,:,0], cmap='gray')
-                axs[i,j].axis('off')
-                axs[i,j].set_title("Digit: %d" % sampled_labels[cnt])
+                axs[i, j].imshow(gen_imgs[cnt, :, :, 0], cmap='gray')
+                axs[i, j].axis('off')
+                axs[i, j].set_title("Digit: %d" % sampled_labels[cnt])
                 cnt += 1
         fig.savefig(IMAGES_PATH + "/%d.png" % epoch)
         plt.close()
+
 
 if __name__ == '__main__':
     cgan = CGAN()

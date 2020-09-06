@@ -1,11 +1,9 @@
-import numpy as np
 import matplotlib.pyplot as plt
+from tensorflow.keras.layers import Conv2D, Input, MaxPooling2D, UpSampling2D
+from tensorflow.keras.models import Model
 
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import *
-from tensorflow.keras.optimizers import *
+from .mnistData import MNIST
 
-from mnistData import *
 
 # Load MNIST dataset
 data = MNIST()
@@ -17,7 +15,7 @@ encoding_dim = 98
 
 # Keras Model: Autoencoder
 # Input Tensors
-input_img = Input(shape=(28,28,1,))
+input_img = Input(shape=(28, 28, 1,))
 # Encoder Part
 x = Conv2D(8, kernel_size=3, activation="relu", padding="same")(input_img) # 28x28x8
 x = MaxPooling2D(padding="same")(x) # 14x14x8
@@ -32,7 +30,7 @@ x = UpSampling2D()(x) # 28x28x8
 decoded = Conv2D(1, kernel_size=3, activation="sigmoid", padding="same")(x) # 28x28x1
 # Output Tensors
 autoencoder = Model(inputs=input_img, outputs=decoded)
- 
+
 # Training
 autoencoder.compile(optimizer="adadelta", loss="binary_crossentropy")
 autoencoder.fit(x_train, x_train, epochs=5, batch_size=128, validation_data=(x_test, x_test))
@@ -42,12 +40,12 @@ test_images = x_test[:10]
 decoded_imgs = autoencoder.predict(test_images)
 
 # PLot test images
-plt.figure(figsize=(12,6))
+plt.figure(figsize=(12, 6))
 for i in range(10):
     # Original image
-    ax = plt.subplot(2 , 10, i+1)
-    plt.imshow(test_images[i].reshape(28,28), cmap="gray")
+    ax = plt.subplot(2, 10, i + 1)
+    plt.imshow(test_images[i].reshape(28, 28), cmap="gray")
     # Decoded image
-    ax = plt.subplot(2 , 10, i+1+10)
-    plt.imshow(decoded_imgs[i].reshape(28,28), cmap="gray")
+    ax = plt.subplot(2, 10, i + 1 + 10)
+    plt.imshow(decoded_imgs[i].reshape(28, 28), cmap="gray")
 plt.show()

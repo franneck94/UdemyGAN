@@ -1,6 +1,12 @@
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import *
-from tensorflow.keras.optimizers import *
+from tensorflow.keras.layers import (Activation,
+                                     Concatenate,
+                                     Dense,
+                                     Dropout,
+                                     Flatten,
+                                     Input,
+                                     LeakyReLU)
+from tensorflow.keras.models import Model
+
 
 def build_discriminator(img_shape, num_classes):
     img = Input(shape=img_shape)

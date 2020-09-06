@@ -1,6 +1,13 @@
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import *
-from tensorflow.keras.optimizers import *
+import numpy as np
+from tensorflow.keras.layers import (Activation,
+                                     BatchNormalization,
+                                     Concatenate,
+                                     Dense,
+                                     Input,
+                                     LeakyReLU,
+                                     Reshape)
+from tensorflow.keras.models import Model
+
 
 def build_generator(z_dimension, num_classes, img_shape):
     noise = Input(shape=(z_dimension,))

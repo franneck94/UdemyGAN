@@ -1,9 +1,10 @@
-from tensorflow.keras.models import *
-from tensorflow.keras.layers import *
-from tensorflow.keras.optimizers import *
+from tensorflow.keras.layers import Activation, Dense
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import Adam
 
-# Load MNIST dataset
-from mnistData1 import *
+from .mnistData1 import MNIST
+
+
 mnistData = MNIST()
 x_train, y_train = mnistData.get_train_set()
 x_test, y_test = mnistData.get_test_set()
@@ -28,12 +29,27 @@ model.summary()
 
 # Train the DNN
 lr = 0.0005
-optimizer = Adam(lr=lr)
-model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
-model.fit(x_train, y_train, verbose=1,
-          batch_size=128, epochs=10,
-          validation_data=(x_test, y_test))
+optimizer = Adam(
+    lr=lr
+)
+model.compile(
+    loss="categorical_crossentropy",
+    optimizer=optimizer,
+    metrics=["accuracy"]
+)
+model.fit(
+    x_train,
+    y_train,
+    verbose=1,
+    batch_size=128,
+    epochs=10,
+    validation_data=(x_test, y_test),
+)
 
 # Test the DNN
-score = model.evaluate(x_test, y_test, verbose=0)
+score = model.evaluate(
+    x_test, 
+    y_test, 
+    verbose=0
+)
 print("Test accuracy: ", score[1])

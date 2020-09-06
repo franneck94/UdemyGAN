@@ -1,9 +1,15 @@
-from tensorflow.keras.models import *
-from tensorflow.keras.layers import *
-from tensorflow.keras.optimizers import *
+from tensorflow.keras.layers import (Activation,
+                                     BatchNormalization,
+                                     Conv2D,
+                                     Dense,
+                                     Flatten,
+                                     MaxPooling2D)
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import Adam
 
-# Load MNIST dataset
-from mnistData2 import *
+from .mnistData2 import MNIST
+
+
 mnistData = MNIST()
 x_train, y_train = mnistData.get_train_set()
 x_test, y_test = mnistData.get_test_set()
@@ -11,21 +17,21 @@ x_test, y_test = mnistData.get_test_set()
 # Define the DNN
 model = Sequential()
 # Conv Block 1
-model.add(Conv2D(32, (7,7), input_shape=(28,28,1)))
+model.add(Conv2D(32, (7, 7), input_shape=(28, 28, 1)))
 model.add(BatchNormalization())
 model.add(Activation("relu"))
-model.add(Conv2D(32, (5,5)))
+model.add(Conv2D(32, (5, 5)))
 model.add(BatchNormalization())
 model.add(Activation("relu"))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 # Conv Block 2
-model.add(Conv2D(64, (5,5)))
+model.add(Conv2D(64, (5, 5)))
 model.add(BatchNormalization())
 model.add(Activation("relu"))
-model.add(Conv2D(128, (3,3)))
+model.add(Conv2D(128, (3, 3)))
 model.add(BatchNormalization())
 model.add(Activation("relu"))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 # Output Layer
 model.add(Dense(10))

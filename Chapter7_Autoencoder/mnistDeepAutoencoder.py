@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
+from tensorflow.keras.layers import Dense, Flatten, Input, Reshape
+from tensorflow.keras.models import Model
 
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import *
-from tensorflow.keras.optimizers import *
+from .mnistData import MNIST
 
-from mnistData import *
 
 # Load MNIST dataset
 data = MNIST()

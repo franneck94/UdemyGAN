@@ -1,11 +1,17 @@
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import *
-from tensorflow.keras.optimizers import *
+from tensorflow.keras.layers import (Activation,
+                                     BatchNormalization,
+                                     Conv2D,
+                                     Dense,
+                                     Input,
+                                     LeakyReLU,
+                                     Reshape,
+                                     UpSampling2D)
+from tensorflow.keras.models import Model, Sequential
 
 
 def build_generator(z_dimension, channels):
     model = Sequential()
-    
+
     model.add(Dense(128 * 8 * 8, input_dim=z_dimension))
     model.add(LeakyReLU(alpha=0.2))
     model.add(Reshape((8, 8, 128)))

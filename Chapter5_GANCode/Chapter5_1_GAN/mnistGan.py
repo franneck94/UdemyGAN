@@ -5,24 +5,24 @@ import matplotlib.pyplot as plt
 
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
+from tensorflow.keras.layers import Input
+from tensorflow.keras.models import Model
+from tensorflow.keras.optimizers import Adam
 
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import *
-from tensorflow.keras.optimizers import *
+from .mnistGanGenerator import build_generator
+from .mnistGanDiscriminator import build_discriminator
+from .mnistData import MNIST
 
-### Bug-Fix for TensorFlow 2
+
 def _check_trainable_weights_consistency(self):
     return
 Model._check_trainable_weights_consistency = _check_trainable_weights_consistency
 
-from mnistGanGenerator import *
-from mnistGanDiscriminator import *
-from mnistData import *
 
 PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGANKurs")
 IMAGES_PATH = os.path.join(PATH, "Chapter5_GANCode/Chapter5_1_GAN/images")
 
-# GAN Model Class
+
 class GAN():
     def __init__(self):
         # Model parameters
@@ -73,8 +73,8 @@ class GAN():
             g_loss = self.combined.train_on_batch(noise, valid)
             # SAVE PROGRESS
             if (epoch % sample_interval) == 0:
-                print("[D loss: ", d_loss[0], 
-                      "acc: ", round(d_loss[1]*100, 2), 
+                print("[D loss: ", d_loss[0],
+                      "acc: ", round(d_loss[1] * 100, 2),
                       "] [G loss: ", g_loss, "]")
                 self.sample_images(epoch)
 
@@ -88,11 +88,12 @@ class GAN():
         cnt = 0
         for i in range(r):
             for j in range(c):
-                axs[i,j].imshow(gen_imgs[cnt, :,:,0], cmap='gray')
-                axs[i,j].axis('off')
+                axs[i, j].imshow(gen_imgs[cnt, :, :, 0], cmap='gray')
+                axs[i, j].axis('off')
                 cnt += 1
         fig.savefig(IMAGES_PATH + "/%d.png" % epoch)
         plt.close()
+
 
 if __name__ == '__main__':
     gan = GAN()

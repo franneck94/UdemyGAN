@@ -1,6 +1,7 @@
-from tensorflow.keras.models import *
-from tensorflow.keras.layers import *
-from tensorflow.keras.optimizers import *
+import numpy as np
+from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras.layers import Activation, BatchNormalization, Dense, Input, LeakyReLU, Reshape
+
 
 def build_generator(z_dimension, img_shape):
     model = Sequential()
