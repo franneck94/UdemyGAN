@@ -2,7 +2,7 @@ from tensorflow.keras.layers import Activation, Dense
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 
-from .mnistData1 import MNIST
+from mnistData1 import MNIST
 
 
 mnistData = MNIST()

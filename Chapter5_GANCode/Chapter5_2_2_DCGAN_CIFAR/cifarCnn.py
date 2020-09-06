@@ -8,7 +8,7 @@ from tensorflow.keras.layers import (Activation,
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 
-from .cifarData import CIFAR10
+from cifarData import CIFAR10
 
 
 cifar_data = CIFAR10()

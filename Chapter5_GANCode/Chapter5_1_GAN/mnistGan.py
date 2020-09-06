@@ -9,9 +9,9 @@ from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 
-from .mnistGanGenerator import build_generator
-from .mnistGanDiscriminator import build_discriminator
-from .mnistData import MNIST
+from mnistGanGenerator import build_generator
+from mnistGanDiscriminator import build_discriminator
+from mnistData import MNIST
 
 
 def _check_trainable_weights_consistency(self):

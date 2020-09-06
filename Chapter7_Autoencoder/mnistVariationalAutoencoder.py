@@ -7,7 +7,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 
 import keras.backend as K
-from .mnistData import MNIST
+from mnistData import MNIST
 
 
 # Load MNIST dataset

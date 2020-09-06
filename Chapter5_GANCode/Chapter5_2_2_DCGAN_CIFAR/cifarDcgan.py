@@ -9,9 +9,9 @@ from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 
-from .cifarData import *
-from .cifarDcganDiscriminator import *
-from .cifarDcganGenerator import *
+from cifarData import *
+from cifarDcganDiscriminator import *
+from cifarDcganGenerator import *
 
 
 def _check_trainable_weights_consistency(self):
