@@ -1,8 +1,7 @@
 import os
 
-import numpy as np
 import matplotlib.pyplot as plt
-
+import numpy as np
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 from tensorflow.keras.layers import Input
@@ -10,8 +9,8 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
 
-from mnistCganGenerator import build_generator
 from mnistCganDiscriminator import build_discriminator
+from mnistCganGenerator import build_generator
 from mnistData import MNIST
 
 

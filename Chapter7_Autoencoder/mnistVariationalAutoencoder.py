@@ -2,11 +2,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
+import keras.backend as K
 from tensorflow.keras.layers import Dense, Input, Lambda
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 
-import keras.backend as K
 from mnistData import MNIST
 
 

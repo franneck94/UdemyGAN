@@ -1,9 +1,11 @@
-from tensorflow.keras.layers import (Activation,
-                                     BatchNormalization,
-                                     Conv2D,
-                                     Dense,
-                                     Flatten,
-                                     MaxPooling2D)
+from tensorflow.keras.layers import (
+    Activation,
+    BatchNormalization,
+    Conv2D,
+    Dense,
+    Flatten,
+    MaxPooling2D
+)
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 

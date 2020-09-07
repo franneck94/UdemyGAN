@@ -6,6 +6,7 @@ Chapter4_GANTheory/
 **lectures/
 **/**/images/*
 *.png
+*.isorted
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

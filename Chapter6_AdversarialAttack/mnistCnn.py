@@ -1,9 +1,11 @@
-from tensorflow.keras.layers import (Activation,
-                                     Conv2D,
-                                     Dense,
-                                     Flatten,
-                                     Input,
-                                     MaxPooling2D)
+from tensorflow.keras.layers import (
+    Activation,
+    Conv2D,
+    Dense,
+    Flatten,
+    Input,
+    MaxPooling2D
+)
 from tensorflow.keras.models import Model, Sequential
 
 

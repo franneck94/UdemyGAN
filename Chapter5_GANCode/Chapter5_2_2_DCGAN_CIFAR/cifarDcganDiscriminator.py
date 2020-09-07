@@ -1,5 +1,13 @@
-from tensorflow.keras.layers import (Activation, BatchNormalization, Conv2D, Dense, Dropout,
-                                     Flatten, Input, LeakyReLU)
+from tensorflow.keras.layers import (
+    Activation,
+    BatchNormalization,
+    Conv2D,
+    Dense,
+    Dropout,
+    Flatten,
+    Input,
+    LeakyReLU
+)
 from tensorflow.keras.models import Model, Sequential
 
 

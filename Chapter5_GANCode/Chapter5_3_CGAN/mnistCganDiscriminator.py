@@ -1,10 +1,12 @@
-from tensorflow.keras.layers import (Activation,
-                                     Concatenate,
-                                     Dense,
-                                     Dropout,
-                                     Flatten,
-                                     Input,
-                                     LeakyReLU)
+from tensorflow.keras.layers import (
+    Activation,
+    Concatenate,
+    Dense,
+    Dropout,
+    Flatten,
+    Input,
+    LeakyReLU
+)
 from tensorflow.keras.models import Model
 
 

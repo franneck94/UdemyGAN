@@ -1,11 +1,13 @@
-from tensorflow.keras.layers import (Activation,
-                                     BatchNormalization,
-                                     Conv2D,
-                                     Dense,
-                                     Input,
-                                     LeakyReLU,
-                                     Reshape,
-                                     UpSampling2D)
+from tensorflow.keras.layers import (
+    Activation,
+    BatchNormalization,
+    Conv2D,
+    Dense,
+    Input,
+    LeakyReLU,
+    Reshape,
+    UpSampling2D
+)
 from tensorflow.keras.models import Model, Sequential
 
 
