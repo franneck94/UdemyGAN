@@ -4,10 +4,9 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.keras.optimizers import Adam
 
-from plotting import plot_img
-
 from mnistCnn import build_cnn
 from mnistData import MNIST
+from plotting import plot_img
 
 
 mnistData = MNIST()

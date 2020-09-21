@@ -3,6 +3,8 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow.compat.v1 as tf
+
+
 tf.disable_v2_behavior()
 from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
@@ -16,6 +18,8 @@ from mnistData import MNIST
 
 def _check_trainable_weights_consistency(self):
     return
+
+
 Model._check_trainable_weights_consistency = _check_trainable_weights_consistency
 
 

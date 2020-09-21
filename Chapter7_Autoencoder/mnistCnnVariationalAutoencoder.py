@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
-from tensorflow.keras.layers import Conv2D, Input, MaxPooling2D, UpSampling2D
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import MaxPooling2D
+from tensorflow.keras.layers import UpSampling2D
 from tensorflow.keras.models import Model
 
 from mnistData import MNIST

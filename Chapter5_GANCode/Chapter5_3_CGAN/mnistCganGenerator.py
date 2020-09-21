@@ -1,13 +1,11 @@
 import numpy as np
-from tensorflow.keras.layers import (
-    Activation,
-    BatchNormalization,
-    Concatenate,
-    Dense,
-    Input,
-    LeakyReLU,
-    Reshape
-)
+from tensorflow.keras.layers import Activation
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import Concatenate
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import LeakyReLU
+from tensorflow.keras.layers import Reshape
 from tensorflow.keras.models import Model
 
 

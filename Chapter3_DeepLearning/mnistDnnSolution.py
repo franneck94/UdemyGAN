@@ -1,4 +1,5 @@
-from tensorflow.keras.layers import Activation, Dense
+from tensorflow.keras.layers import Activation
+from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 
@@ -48,8 +49,8 @@ model.fit(
 
 # Test the DNN
 score = model.evaluate(
-    x_test, 
-    y_test, 
+    x_test,
+    y_test,
     verbose=0
 )
 print("Test accuracy: ", score[1])

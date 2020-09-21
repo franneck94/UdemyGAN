@@ -1,13 +1,12 @@
 import numpy as np
-from tensorflow.keras.layers import (
-    Activation,
-    BatchNormalization,
-    Dense,
-    Input,
-    LeakyReLU,
-    Reshape
-)
-from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras.layers import Activation
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import LeakyReLU
+from tensorflow.keras.layers import Reshape
+from tensorflow.keras.models import Model
+from tensorflow.keras.models import Sequential
 
 
 def build_generator(z_dimension, img_shape):

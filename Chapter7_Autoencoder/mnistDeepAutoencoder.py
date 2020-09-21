@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
-from tensorflow.keras.layers import Dense, Flatten, Input, Reshape
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import Reshape
 from tensorflow.keras.models import Model
 
 from mnistData import MNIST
@@ -14,10 +17,10 @@ x_test, _ = data.get_test_set()
 encoding_dim = 32
 
 # Input Tensors
-input_img = Input(shape=(28,28,1,))
+input_img = Input(shape=(28, 28, 1,))
 input_img_flatten = Flatten()(input_img)
 
-#Encoder Part
+# Encoder Part
 encoded = Dense(256, activation="relu")(input_img_flatten) # 784 => 256
 encoded = Dense(128, activation="relu")(encoded) # 256 => 128
 encoded = Dense(encoding_dim, activation="relu")(encoded) # 128 >= 32
@@ -28,7 +31,7 @@ decoded = Dense(256, activation="relu")(decoded) # 128 >= 256
 decoded = Dense(784, activation="sigmoid")(decoded) # 256 => 784
 
 # Output Tensors
-output_img = Reshape((28,28,1,))(decoded)
+output_img = Reshape((28, 28, 1,))(decoded)
 autoencoder = Model(inputs=input_img, outputs=output_img)
 
 # Training
@@ -40,12 +43,12 @@ test_images = x_test[:10]
 decoded_imgs = autoencoder.predict(test_images)
 
 # PLot test images
-plt.figure(figsize=(12,6))
+plt.figure(figsize=(12, 6))
 for i in range(10):
     # Original image
-    ax = plt.subplot(2 , 10, i+1)
-    plt.imshow(test_images[i].reshape(28,28), cmap="gray")
+    ax = plt.subplot(2, 10, i + 1)
+    plt.imshow(test_images[i].reshape(28, 28), cmap="gray")
     # Decoded image
-    ax = plt.subplot(2 , 10, i+1+10)
-    plt.imshow(decoded_imgs[i].reshape(28,28), cmap="gray")
+    ax = plt.subplot(2, 10, i + 1 + 10)
+    plt.imshow(decoded_imgs[i].reshape(28, 28), cmap="gray")
 plt.show()

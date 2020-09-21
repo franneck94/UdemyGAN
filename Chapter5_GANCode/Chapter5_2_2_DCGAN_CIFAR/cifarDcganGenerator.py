@@ -1,14 +1,13 @@
-from tensorflow.keras.layers import (
-    Activation,
-    BatchNormalization,
-    Conv2D,
-    Dense,
-    Input,
-    LeakyReLU,
-    Reshape,
-    UpSampling2D
-)
-from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras.layers import Activation
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import LeakyReLU
+from tensorflow.keras.layers import Reshape
+from tensorflow.keras.layers import UpSampling2D
+from tensorflow.keras.models import Model
+from tensorflow.keras.models import Sequential
 
 
 def build_generator(z_dimension, channels):

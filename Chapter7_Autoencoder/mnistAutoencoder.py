@@ -1,5 +1,8 @@
 import matplotlib.pyplot as plt
-from tensorflow.keras.layers import Dense, Flatten, Input, Reshape
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import Reshape
 from tensorflow.keras.models import Model
 
 from mnistData import MNIST
