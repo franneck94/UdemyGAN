@@ -1,9 +1,12 @@
 from tensorflow.keras.layers import Activation
+from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 
-from mnistData1 import MNIST
+from mnistData2 import MNIST
 
 
 mnist_data = MNIST()
@@ -14,13 +17,20 @@ print(f"Train shape: {x_train.shape}, Test shape: {x_test.shape}")
 
 # Define the DNN
 model = Sequential()
-# Hidden Layer 1
-model.add(Dense(512, input_shape=(784,)))
+# Conv Block 1
+model.add(Conv2D(filters=32, kernel_size=(7, 7), input_shape=(28, 28, 1)))
 model.add(Activation("relu"))
-# Hidden Layer 2
-model.add(Dense(512))
+model.add(Conv2D(filters=64, kernel_size=(5, 5)))
 model.add(Activation("relu"))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+# Conv Block 2
+model.add(Conv2D(filters=64, kernel_size=(5, 5)))
+model.add(Activation("relu"))
+model.add(Conv2D(filters=64, kernel_size=(3, 3)))
+model.add(Activation("relu"))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 # Output Layer
+model.add(Flatten())
 model.add(Dense(10))
 model.add(Activation("softmax"))
 
@@ -30,7 +40,7 @@ model.summary()
 # Compile the DNN
 model.compile(
     loss="categorical_crossentropy",
-    optimizer=Adam(learning_rate=0.001),
+    optimizer=Adam(learning_rate=0.0001),
     metrics=["accuracy"]
 )
 
@@ -40,7 +50,7 @@ model.fit(
     y=y_train,
     verbose=1,
     batch_size=128,
-    epochs=10,
+    epochs=30,
     validation_data=(x_test, y_test)
 )
 

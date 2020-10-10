@@ -6,9 +6,11 @@ from tensorflow.keras.optimizers import Adam
 from mnistData1 import MNIST
 
 
-mnistData = MNIST()
-x_train, y_train = mnistData.get_train_set()
-x_test, y_test = mnistData.get_test_set()
+mnist_data = MNIST()
+x_train, y_train = mnist_data.get_train_set()
+x_test, y_test = mnist_data.get_test_set()
+
+print(f"Train shape: {x_train.shape}, Test shape: {x_test.shape}")
 
 # Define the DNN
 model = Sequential()
@@ -25,17 +27,27 @@ model.add(Activation("softmax"))
 # Print the DNN layers
 model.summary()
 
+# Compile the DNN
+model.compile(
+    loss="categorical_crossentropy",
+    optimizer=Adam(learning_rate=0.001),
+    metrics=["accuracy"]
+)
+
 # Train the DNN
-lr = 0.0001
-optimizer = Adam(lr=lr)
-model.compile(loss="categorical_crossentropy",
-              optimizer=optimizer,
-              metrics=["accuracy"])
-model.fit(x_train, y_train,
-          epochs=10,
-          batch_size=128,
-          validation_data=(x_test, y_test))
+model.fit(
+    x=x_train,
+    y=y_train,
+    verbose=1,
+    batch_size=128,
+    epochs=10,
+    validation_data=(x_test, y_test)
+)
 
 # Test the DNN
-score = model.evaluate(x_test, y_test, verbose=0)
-print("Test accuracy: ", score[1])
+score = model.evaluate(
+    x=x_test,
+    y=y_test,
+    verbose=0
+)
+print(f"Test accuracy: {score}")

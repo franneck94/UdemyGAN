@@ -6,9 +6,11 @@ from tensorflow.keras.optimizers import Adam
 from mnistData1 import MNIST
 
 
-mnistData = MNIST()
-x_train, y_train = mnistData.get_train_set()
-x_test, y_test = mnistData.get_test_set()
+mnist_data = MNIST()
+x_train, y_train = mnist_data.get_train_set()
+x_test, y_test = mnist_data.get_test_set()
+
+print(f"Train shape: {x_train.shape}, Test shape: {x_test.shape}")
 
 # Define the DNN
 model = Sequential()
@@ -16,10 +18,10 @@ model = Sequential()
 model.add(Dense(512, input_shape=(784,)))
 model.add(Activation("relu"))
 # Hidden Layer 2
-model.add(Dense(512))
+model.add(Dense(256))
 model.add(Activation("relu"))
 # Hidden Layer 3
-model.add(Dense(256))
+model.add(Dense(128))
 model.add(Activation("relu"))
 # Output Layer
 model.add(Dense(10))
@@ -28,29 +30,27 @@ model.add(Activation("softmax"))
 # Print the DNN layers
 model.summary()
 
-# Train the DNN
-lr = 0.0005
-optimizer = Adam(
-    lr=lr
-)
+# Compile the DNN
 model.compile(
     loss="categorical_crossentropy",
-    optimizer=optimizer,
+    optimizer=Adam(learning_rate=0.0001),
     metrics=["accuracy"]
 )
+
+# Train the DNN
 model.fit(
-    x_train,
-    y_train,
+    x=x_train,
+    y=y_train,
     verbose=1,
     batch_size=128,
-    epochs=10,
-    validation_data=(x_test, y_test),
+    epochs=30,
+    validation_data=(x_test, y_test)
 )
 
 # Test the DNN
 score = model.evaluate(
-    x_test,
-    y_test,
+    x=x_test,
+    y=y_test,
     verbose=0
 )
-print("Test accuracy: ", score[1])
+print(f"Test accuracy: {score}")
