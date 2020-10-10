@@ -3,9 +3,6 @@ from tensorflow.keras.utils import to_categorical
 
 
 class CIFAR10:
-    x_train, y_train, x_test, y_test = None, None, None, None
-    train_size, test_size = 0, 0
-
     def __init__(self):
         (self.x_train, self.y_train), (self.x_test, self.y_test) = cifar10.load_data()
         # reshape
@@ -14,9 +11,6 @@ class CIFAR10:
         # convert from int to float
         self.x_train = self.x_train.astype('float32')
         self.x_test = self.x_test.astype('float32')
-        # rescale values
-        # self.x_train /= 255.0
-        # self.x_test /= 255.0
         # Save dataset sizes
         self.train_size = self.x_train.shape[0]
         self.test_size = self.x_test.shape[0]

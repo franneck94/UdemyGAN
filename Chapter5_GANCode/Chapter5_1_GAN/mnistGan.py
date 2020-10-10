@@ -2,10 +2,6 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
-import tensorflow.compat.v1 as tf
-
-
-tf.disable_v2_behavior()
 from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
@@ -15,14 +11,7 @@ from mnistGanDiscriminator import build_discriminator
 from mnistGanGenerator import build_generator
 
 
-def _check_trainable_weights_consistency(self):
-    return
-
-
-Model._check_trainable_weights_consistency = _check_trainable_weights_consistency
-
-
-PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGANKurs")
+PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
 IMAGES_PATH = os.path.join(PATH, "Chapter5_GANCode/Chapter5_1_GAN/images")
 
 
@@ -40,7 +29,8 @@ class GAN():
         self.discriminator.compile(
             loss='binary_crossentropy',
             optimizer=optimizer,
-            metrics=['accuracy'])
+            metrics=['accuracy']
+        )
         # BUILD GENERATOR
         self.generator = build_generator(self.z_dimension, self.img_shape)
         z = Input(shape=(self.z_dimension,))
@@ -48,7 +38,10 @@ class GAN():
         self.discriminator.trainable = False
         d_pred = self.discriminator(img)
         self.combined = Model(z, d_pred)
-        self.combined.compile(loss='binary_crossentropy', optimizer=optimizer)
+        self.combined.compile(
+            loss='binary_crossentropy',
+            optimizer=optimizer
+        )
 
     def train(self, epochs, batch_size, sample_interval):
         # Load and rescale dataset
@@ -76,9 +69,11 @@ class GAN():
             g_loss = self.combined.train_on_batch(noise, valid)
             # SAVE PROGRESS
             if (epoch % sample_interval) == 0:
-                print("[D loss: ", d_loss[0],
-                      "acc: ", round(d_loss[1] * 100, 2),
-                      "] [G loss: ", g_loss, "]")
+                print(
+                    f"{epoch} - D_loss: {round(d_loss[0], 4)}, "
+                    f"D_acc: {round(d_loss[1] * 100, 4)}, "
+                    f"G_loss: {round(g_loss, 4)}"
+                )
                 self.sample_images(epoch)
 
     # Save sample images
@@ -100,4 +95,8 @@ class GAN():
 
 if __name__ == '__main__':
     gan = GAN()
-    gan.train(epochs=200000, batch_size=32, sample_interval=1000)
+    gan.train(
+        epochs=12_000,
+        batch_size=32,
+        sample_interval=1000
+    )

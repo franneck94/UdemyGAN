@@ -13,7 +13,7 @@ mnistData = MNIST()
 x_train, y_train = mnistData.get_train_set()
 x_test, y_test = mnistData.get_test_set()
 
-PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGANKurs")
+PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
 MODEL_PATH = os.path.join(PATH, "models")
 
 
@@ -21,7 +21,7 @@ def adversarial_noise(model, image, label):
     loss_object = tf.keras.losses.CategoricalCrossentropy()
     with tf.GradientTape() as tape:
         tape.watch(image)
-        prediction = model(image, training=False)
+        prediction = tf.reshape(model(image, training=False), (10,))
         loss = loss_object(label, prediction)
     # Get the gradients of the loss w.r.t to the input image.
     gradient = tape.gradient(loss, image)
@@ -38,8 +38,8 @@ if __name__ == "__main__":
     cnn.compile(
         loss="categorical_crossentropy",
         optimizer=optimizer,
-        metrics=["accuracy"])
-
+        metrics=["accuracy"]
+    )
     # cnn.fit(x_train, y_train, verbose=1,
     #         batch_size=256, epochs=10,
     #         validation_data=(x_test, y_test))

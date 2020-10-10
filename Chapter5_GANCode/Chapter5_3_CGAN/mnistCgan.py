@@ -2,10 +2,6 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
-import tensorflow.compat.v1 as tf
-
-
-tf.disable_v2_behavior()
 from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
@@ -16,14 +12,7 @@ from mnistCganGenerator import build_generator
 from mnistData import MNIST
 
 
-def _check_trainable_weights_consistency(self):
-    return
-
-
-Model._check_trainable_weights_consistency = _check_trainable_weights_consistency
-
-
-PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGANKurs")
+PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
 IMAGES_PATH = os.path.join(PATH, "Chapter5_GANCode/Chapter5_3_CGAN/images")
 
 
@@ -86,8 +75,11 @@ class CGAN():
             g_loss = self.combined.train_on_batch([noise, sampled_labels], valid)
             # SAVE PROGRESS
             if (epoch % sample_interval) == 0:
-                print("%d [D loss: %f, acc.: %.2f%%] [G loss: %f]" %
-                      (epoch, d_loss[0], 100 * d_loss[1], g_loss))
+                print(
+                    f"{epoch} - D_loss: {round(d_loss[0], 4)}, "
+                    f"D_acc: {round(d_loss[1] * 100, 4)}, "
+                    f"G_loss: {round(g_loss, 4)}"
+                )
                 self.sample_images(epoch)
 
     # Save sample images
@@ -112,4 +104,8 @@ class CGAN():
 
 if __name__ == '__main__':
     cgan = CGAN()
-    cgan.train(epochs=200000, batch_size=32, sample_interval=1000)
+    cgan.train(
+        epochs=20_000,
+        batch_size=32,
+        sample_interval=1000
+    )

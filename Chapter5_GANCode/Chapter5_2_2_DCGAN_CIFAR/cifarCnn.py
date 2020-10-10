@@ -53,13 +53,23 @@ model.add(Activation("softmax"))
 model.summary()
 
 # Train the CNN
-lr = 0.0005
-optimizer = Adam(lr=lr)
-model.compile(loss="categorical_crossentropy", optimizer=optimizer, metrics=["accuracy"])
-model.fit(x_train, y_train, verbose=1,
-          batch_size=128, nb_epoch=15,
-          validation_data=(x_test, y_test))
+model.compile(
+    loss="categorical_crossentropy",
+    optimizer=Adam(lr=0.0005),
+    metrics=["accuracy"]
+)
+model.fit(
+    x=x_train,
+    y=y_train,
+    verbose=1,
+    batch_size=128,
+    nb_epoch=15,
+    validation_data=(x_test, y_test)
+)
 
 # Test the CNN
-score = model.evaluate(x_test, y_test)
+score = model.evaluate(
+    x=x_test,
+    y=y_test
+)
 print("Test accuracy: ", score[1])
