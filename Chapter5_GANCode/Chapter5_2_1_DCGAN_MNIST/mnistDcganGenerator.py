@@ -10,21 +10,21 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.models import Sequential
 
 
-def build_generator(z_dimension, channels):
+def build_generator(z_dimension, img_shape):
     model = Sequential()
-    model.add(Dense(128 * 7 * 7, input_dim=z_dimension))
-    model.add(LeakyReLU(alpha=0.2))
-    model.add(Reshape((7, 7, 128)))
-    model.add(UpSampling2D())
-    model.add(Conv2D(128, kernel_size=5, strides=1, padding="same", use_bias=False))
-    model.add(BatchNormalization())
-    model.add(LeakyReLU(alpha=0.2))
-    model.add(UpSampling2D())
-    model.add(Conv2D(64, kernel_size=5, strides=1, padding="same", use_bias=False))
-    model.add(BatchNormalization())
-    model.add(LeakyReLU(alpha=0.2))
-    model.add(Conv2D(channels, kernel_size=5, strides=1, padding="same", use_bias=False))
-    model.add(Activation("tanh"))
+    model.add(Dense(units=7 * 7 * 128, input_dim=z_dimension)) # 6272,
+    model.add(LeakyReLU(alpha=0.2)) # 6272,
+    model.add(Reshape(target_shape=(7, 7, 128))) # 7x7x128
+    model.add(UpSampling2D()) # 14x14x128
+    model.add(Conv2D(filters=128, kernel_size=5, strides=1, padding="same", use_bias=False)) # 14x14x128
+    model.add(BatchNormalization()) # 14x14x128
+    model.add(LeakyReLU(alpha=0.2)) # 14x14x128
+    model.add(UpSampling2D()) # 28x28x128
+    model.add(Conv2D(filters=64, kernel_size=5, strides=1, padding="same", use_bias=False)) # 28x28x64
+    model.add(BatchNormalization()) # 28x28x64
+    model.add(LeakyReLU(alpha=0.2)) # 28x28x64
+    model.add(Conv2D(filters=img_shape[-1], kernel_size=5, strides=1, padding="same", use_bias=False)) # 28x28x1
+    model.add(Activation("tanh")) # (-1 ,1)
     model.summary()
     noise = Input(shape=(z_dimension,))
     img = model(noise)
@@ -33,5 +33,5 @@ def build_generator(z_dimension, channels):
 
 if __name__ == "__main__":
     z_dimension = 100
-    channels = 1
-    g = build_generator(z_dimension, channels)
+    img_shape = (28, 28, 1)
+    model = build_generator(z_dimension=z_dimension, img_shape=img_shape)

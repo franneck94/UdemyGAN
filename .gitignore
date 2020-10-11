@@ -13,6 +13,10 @@ Chapter5_GANCode/Chapter5_1_GAN/2_Networks/
 Chapter5_GANCode/Chapter5_1_GAN/3_GANStart/
 Chapter5_GANCode/Chapter5_1_GAN/4_Finish/
 
+Chapter5_GANCode/Chapter5_2_1_DCGAN_MNIST/1_Start/
+Chapter5_GANCode/Chapter5_2_1_DCGAN_MNIST/2_Networks/
+Chapter5_GANCode/Chapter5_2_1_DCGAN_MNIST/3_Finish/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

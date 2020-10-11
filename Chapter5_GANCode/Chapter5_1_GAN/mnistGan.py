@@ -10,6 +10,7 @@ from mnistData import MNIST
 from mnistGanDiscriminator import build_discriminator
 from mnistGanGenerator import build_generator
 
+
 PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
 IMAGES_PATH = os.path.join(PATH, "Chapter5_GANCode/Chapter5_1_GAN/images")
 

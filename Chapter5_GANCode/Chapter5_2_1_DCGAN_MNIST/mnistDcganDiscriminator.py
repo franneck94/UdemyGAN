@@ -10,16 +10,16 @@ from tensorflow.keras.models import Sequential
 
 
 def build_discriminator(img_shape):
-    model = Sequential()  # 28x28
-    model.add(Conv2D(64, kernel_size=5, strides=2, input_shape=img_shape, padding="same"))  # 14x14
+    model = Sequential()
+    model.add(Conv2D(filters=64, kernel_size=5, strides=2, padding="same", input_shape=img_shape)) # 28x28x1 => 14x14x64
     model.add(LeakyReLU(alpha=0.2))
-    model.add(Dropout(0.3))
-    model.add(Conv2D(128, (5, 5), strides=(2, 2), padding='same'))
-    model.add(LeakyReLU())
-    model.add(Dropout(0.3))
-    model.add(Flatten())
-    model.add(Dense(1))
-    model.add(Activation("sigmoid"))
+    model.add(Dropout(rate=0.3))
+    model.add(Conv2D(filters=128, kernel_size=5, strides=2, padding="same")) # 14x14x62 => 7x7x128
+    model.add(LeakyReLU(alpha=0.2))
+    model.add(Dropout(rate=0.3))
+    model.add(Flatten()) # 7x7x128 => 6272
+    model.add(Dense(units=1))
+    model.add(Activation("sigmoid")) # (0, 1)
     model.summary()
     img = Input(shape=img_shape)
     d_pred = model(img)
@@ -28,4 +28,4 @@ def build_discriminator(img_shape):
 
 if __name__ == "__main__":
     img_shape = (28, 28, 1)
-    d = build_discriminator(img_shape)
+    model = build_discriminator(img_shape=img_shape)

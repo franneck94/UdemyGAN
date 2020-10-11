@@ -2,7 +2,6 @@ from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import BatchNormalization
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import Dropout
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.models import Sequential
@@ -18,33 +17,28 @@ x_test, y_test = cifar_data.get_test_set()
 # Define the CNN
 model = Sequential()
 # Conv Block 1
-model.add(Conv2D(32, (3, 3), input_shape=(32, 32, 3), padding="same"))
-model.add(Conv2D(64, (3, 3), padding="same"))
-model.add(MaxPooling2D(pool_size=(2, 2)))  # 16x16
-model.add(Activation("relu"))
-model.add(BatchNormalization())
+model.add(Conv2D(filters=64, kernel_size=(3, 3), input_shape=(32, 32, 3), padding="same")) # 16x16x32
+model.add(Conv2D(filters=64, kernel_size=(3, 3), padding="same")) # 16x16x64
+model.add(MaxPooling2D(pool_size=(2, 2))) # 16x16x64
+model.add(Activation("relu")) # 16x16x64
+model.add(BatchNormalization()) # 16x16x64
 # Conv Block 2
-model.add(Conv2D(128, (3, 3), padding="same"))
-model.add(Conv2D(256, (3, 3), padding="same"))
-model.add(MaxPooling2D(pool_size=(2, 2)))  # 8x8
-model.add(Activation("relu"))
-model.add(BatchNormalization())
+model.add(Conv2D(128, kernel_size=(3, 3), padding="same")) # 16x16x128
+model.add(Conv2D(128, kernel_size=(3, 3), padding="same")) # 16x16x256
+model.add(MaxPooling2D(pool_size=(2, 2))) # 8x8x256
+model.add(Activation("relu")) # 8x8x256
+model.add(BatchNormalization()) # 8x8x256
 # Conv Block 3
-model.add(Conv2D(512, (3, 3), padding="same"))
-model.add(Conv2D(1024, (3, 3), padding="same"))
-model.add(MaxPooling2D(pool_size=(2, 2)))  # 4x4
-model.add(Activation("relu"))
-model.add(BatchNormalization())
+model.add(Conv2D(256, kernel_size=(3, 3), padding="same")) # 8x8x512
+model.add(Conv2D(256, kernel_size=(3, 3), padding="same")) # 8x8x1024
+model.add(MaxPooling2D(pool_size=(2, 2))) # 4x4x1024
+model.add(Activation("relu")) # 4x4x1024
+model.add(BatchNormalization()) # 4x4x1024
 # Fully connected layer 1
-model.add(Flatten())
-model.add(Dense(1024))
-model.add(Dropout(0.25))
-model.add(Activation("relu"))
-model.add(BatchNormalization())
-model.add(Dense(512))
-model.add(Dropout(0.25))
-model.add(Activation("relu"))
-model.add(BatchNormalization())
+model.add(Flatten()) # 4096,
+model.add(Dense(256)) # 256,
+model.add(Activation("relu")) # 256,
+model.add(BatchNormalization()) # 256,
 # Output layer
 model.add(Dense(10))
 model.add(Activation("softmax"))
@@ -55,7 +49,7 @@ model.summary()
 # Train the CNN
 model.compile(
     loss="categorical_crossentropy",
-    optimizer=Adam(lr=0.0005),
+    optimizer=Adam(lr=0.0007),
     metrics=["accuracy"]
 )
 model.fit(
@@ -63,7 +57,7 @@ model.fit(
     y=y_train,
     verbose=1,
     batch_size=128,
-    nb_epoch=15,
+    epochs=10,
     validation_data=(x_test, y_test)
 )
 
