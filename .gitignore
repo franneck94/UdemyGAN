@@ -8,6 +8,8 @@ Chapter4_GANTheory/
 *.png
 *.isorted
 
+Chapter5_GANCode/Chapter5_1_GAN/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
