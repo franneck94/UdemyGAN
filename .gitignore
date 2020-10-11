@@ -8,7 +8,10 @@ Chapter4_GANTheory/
 *.png
 *.isorted
 
-Chapter5_GANCode/Chapter5_1_GAN/*
+Chapter5_GANCode/Chapter5_1_GAN/1_Preparation/
+Chapter5_GANCode/Chapter5_1_GAN/2_Networks/
+Chapter5_GANCode/Chapter5_1_GAN/3_GANStart/
+Chapter5_GANCode/Chapter5_1_GAN/4_Finish/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
