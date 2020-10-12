@@ -5,7 +5,6 @@ import numpy as np
 from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.utils import to_categorical
 
 from mnistData import MNIST
 from mnistCganDiscriminator import build_discriminator
@@ -28,15 +27,13 @@ class CGAN:
             self.img_depth
         )
         self.z_dimension = 100
-        self.num_classes = 10
         optimizer = Adam(
             learning_rate=0.0002,
             beta_1=0.5
         )
         # Build Discriminator
         self.discriminator = build_discriminator(
-            img_shape=self.img_shape,
-            num_classes=self.num_classes
+            img_shape=self.img_shape
         )
         self.discriminator.compile(
             loss="binary_crossentropy",
@@ -46,16 +43,14 @@ class CGAN:
         # Build Generator
         self.generator = build_generator(
             z_dimension=self.z_dimension,
-            img_shape=self.img_shape,
-            num_classes=self.num_classes
+            img_shape=self.img_shape
         )
-        noise = Input(shape=(self.z_dimension,)) # Input for Generator
-        label = Input(shape=(self.num_classes,))
-        img = self.generator([noise, label]) # Generator generates an image
+        z = Input(shape=(self.z_dimension,)) # Input for Generator
+        img = self.generator(z) # Generator generates an image
         self.discriminator.trainable = False # Set the discriminator in non-trainable mode
-        d_pred = self.discriminator([img, label]) # Generator image as input for the discriminator
+        d_pred = self.discriminator(img) # Generator image as input for the discriminator
         self.combined = Model(
-            inputs=[noise, label],
+            inputs=z,
             outputs=d_pred
         )
         self.combined.compile(
@@ -67,7 +62,7 @@ class CGAN:
     def train(self, epochs, batch_size, sample_interval):
         # Load and resacle data
         mnist_data = MNIST()
-        x_train, y_train = mnist_data.get_train_set()
+        x_train, _ = mnist_data.get_train_set()
         x_train = (x_train / 127.5) - 1.0
         # Adverserial ground truths
         y_real = np.ones(shape=(batch_size, 1))
@@ -78,17 +73,16 @@ class CGAN:
             # Trainset images
             rand_idxs = np.random.randint(0, x_train.shape[0], batch_size)
             train_imgs = x_train[rand_idxs]
-            train_labels = y_train[rand_idxs]
             # Generated images
             noise = np.random.normal(loc=0.0, scale=1.0, size=(batch_size, self.z_dimension))
-            generated_imgs = self.generator([noise, train_labels], training=False)
+            generated_imgs = self.generator(noise, training=False)
             # Train the discriminator
-            d_loss_real = self.discriminator.train_on_batch([train_imgs, train_labels], y_real)
-            d_loss_fake = self.discriminator.train_on_batch([generated_imgs, train_labels], y_fake)
+            d_loss_real = self.discriminator.train_on_batch(train_imgs, y_real)
+            d_loss_fake = self.discriminator.train_on_batch(generated_imgs, y_fake)
             d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
             # Train the generator
             noise = np.random.normal(loc=0.0, scale=1.0, size=(batch_size, self.z_dimension))
-            g_loss = self.combined.train_on_batch([noise, train_labels], y_real)
+            g_loss = self.combined.train_on_batch(noise, y_real)
             # Save the progress
             if (epoch % sample_interval) == 0:
                 print(
@@ -107,18 +101,15 @@ class CGAN:
         epoch : int
             Number of the current epoch
         """
-        r, c = 2, 5
+        r, c = 5, 5
         noise = np.random.normal(loc=0.0, scale=1.0, size=(r * c, self.z_dimension))
-        labels = np.random.randint(0, self.num_classes, 10)
-        labels_categorical = to_categorical(labels, num_classes=self.num_classes)
-        gen_imgs = self.generator.predict([noise, labels_categorical])
+        gen_imgs = self.generator.predict(noise)
         gen_imgs = 0.5 * gen_imgs + 0.5
         fig, axs = plt.subplots(r, c)
         cnt = 0
         for i in range(r):
             for j in range(c):
                 axs[i, j].imshow(gen_imgs[cnt, :, :, 0], cmap="gray")
-                axs[i, j].set_title(f"Digit: {labels[cnt]}")
                 axs[i, j].axis("off")
                 cnt += 1
         img_name = f"{epoch}.png"
@@ -129,7 +120,7 @@ class CGAN:
 if __name__ == "__main__":
     cgan = CGAN()
     cgan.train(
-        epochs=20_000,
+        epochs=50_000,
         batch_size=128,
         sample_interval=1_000
     )
