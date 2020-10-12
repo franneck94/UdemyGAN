@@ -73,14 +73,14 @@ class DCGAN:
             rand_idxs = np.random.randint(0, x_train.shape[0], batch_size)
             train_imgs = x_train[rand_idxs]
             # Generated images
-            noise = np.random.normal(0, 1, (batch_size, self.z_dimension))
+            noise = np.random.normal(loc=0.0, scale=1.0, size=(batch_size, self.z_dimension))
             generated_imgs = self.generator(noise, training=False)
             # Train the discriminator
             d_loss_real = self.discriminator.train_on_batch(train_imgs, y_real)
             d_loss_fake = self.discriminator.train_on_batch(generated_imgs, y_fake)
             d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
             # Train the generator
-            noise = np.random.normal(0, 1, (batch_size, self.z_dimension))
+            noise = np.random.normal(loc=0.0, scale=1.0, size=(batch_size, self.z_dimension))
             g_loss = self.combined.train_on_batch(noise, y_real)
             # Save the progress
             if (epoch % sample_interval) == 0:
@@ -90,28 +90,36 @@ class DCGAN:
                     f" G_loss: {round(g_loss, 4)}"
                 )
                 self.sample_images(epoch)
+        self.sample_images("final")
 
-    # Save sample images
     def sample_images(self, epoch):
+        """Save sample images
+
+        Parameters
+        ----------
+        epoch : int
+            Number of the current epoch
+        """
         r, c = 5, 5
-        noise = np.random.normal(0, 1, (r * c, self.z_dimension))
+        noise = np.random.normal(loc=0.0, scale=1.0, size=(r * c, self.z_dimension))
         gen_imgs = self.generator.predict(noise)
         gen_imgs = 0.5 * gen_imgs + 0.5
         fig, axs = plt.subplots(r, c)
         cnt = 0
         for i in range(r):
             for j in range(c):
-                axs[i, j].imshow(gen_imgs[cnt, :, :, 0], cmap='gray')
-                axs[i, j].axis('off')
+                axs[i, j].imshow(gen_imgs[cnt, :, :, 0], cmap="gray")
+                axs[i, j].axis("off")
                 cnt += 1
-        fig.savefig(IMAGES_PATH + "/%d.png" % epoch)
+        img_name = f"{epoch}.png"
+        fig.savefig(os.path.join(IMAGES_PATH, img_name))
         plt.close()
 
 
 if __name__ == "__main__":
     dcgan = DCGAN()
     dcgan.train(
-        epochs=20_000,
-        batch_size=32,
+        epochs=50_000,
+        batch_size=128,
         sample_interval=1_000
     )

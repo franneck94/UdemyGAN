@@ -62,14 +62,14 @@ class CGAN():
             imgs = x_train[idx]
             labels = y_train[idx]
             # GENERATED IMAGES
-            noise = np.random.normal(0, 1, (batch_size, self.z_dimension))
+            noise = np.random.normal(loc=0.0, scale=1.0, size=(batch_size, self.z_dimension))
             gen_imgs = self.generator.predict([noise, labels])
             # TRAIN DISCRIMINATOR
             d_loss_real = self.discriminator.train_on_batch([imgs, labels], valid)
             d_loss_fake = self.discriminator.train_on_batch([gen_imgs, labels], fake)
             d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
             # TRAIN GENERATOR
-            noise = np.random.normal(0, 1, (batch_size, self.z_dimension))
+            noise = np.random.normal(loc=0.0, scale=1.0, size=(batch_size, self.z_dimension))
             sampled_labels = np.random.randint(0, self.num_classes, batch_size)
             sampled_labels = to_categorical(sampled_labels, num_classes=self.num_classes)
             g_loss = self.combined.train_on_batch([noise, sampled_labels], valid)
@@ -85,7 +85,7 @@ class CGAN():
     # Save sample images
     def sample_images(self, epoch):
         r, c = 2, 5
-        noise = np.random.normal(0, 1, (r * c, self.z_dimension))
+        noise = np.random.normal(loc=0.0, scale=1.0, size=(r * c, self.z_dimension))
         sampled_labels = np.random.randint(0, self.num_classes, self.num_classes)
         sampled_labels_toc = to_categorical(sampled_labels, num_classes=self.num_classes)
         gen_imgs = self.generator.predict([noise, sampled_labels_toc])

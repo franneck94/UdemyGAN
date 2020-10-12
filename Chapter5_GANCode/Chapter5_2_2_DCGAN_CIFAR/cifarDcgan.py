@@ -15,74 +15,105 @@ PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
 IMAGES_PATH = os.path.join(PATH, "Chapter5_GANCode/Chapter5_2_2_DCGAN_CIFAR/images")
 
 
-class DCGAN():
+class DCGAN:
     def __init__(self):
         # Model parameters
         self.img_rows = 32
         self.img_cols = 32
-        self.channels = 3
-        self.img_shape = (self.img_rows, self.img_cols, self.channels)
-        self.z_dimension = 100
-        optimizer = Adam(0.0002, 0.5)
-        # BUILD DISCRIMINATOR
-        self.discriminator = build_discriminator(self.img_shape)
-        self.discriminator.compile(
-            loss='binary_crossentropy',
-            optimizer=optimizer,
-            metrics=['accuracy']
+        self.img_depth = 3
+        self.img_shape = (
+            self.img_rows,
+            self.img_cols,
+            self.img_depth
         )
-        # BUILD GENERATOR
-        self.generator = build_generator(self.z_dimension, self.channels)
-        # The generator takes noise as input and generates imgs
-        z = Input(shape=(self.z_dimension,))
-        img = self.generator(z)
-        self.discriminator.trainable = False
-        d_pred = self.discriminator(img)
-        # The combined model  (stacked generator and discriminator)
-        # Trains the generator to fool the discriminator
-        self.combined = Model(z, d_pred)
+        self.z_dimension = 100
+        optimizer_discriminator = Adam(
+            learning_rate=0.0003,
+            beta_1=0.5
+        )
+        optimizer_generator = Adam(
+            learning_rate=0.0004,
+            beta_1=0.5
+        )
+        # Build Discriminator
+        self.discriminator = build_discriminator(
+            img_shape=self.img_shape
+        )
+        self.discriminator.compile(
+            loss="binary_crossentropy",
+            optimizer=optimizer_discriminator,
+            metrics=["accuracy"]
+        )
+        # Build Generator
+        self.generator = build_generator(
+            z_dimension=self.z_dimension,
+            img_shape=self.img_shape
+        )
+        z = Input(shape=(self.z_dimension,)) # Input for Generator
+        img = self.generator(z) # Generator generates an image
+        self.discriminator.trainable = False # Set the discriminator in non-trainable mode
+        d_pred = self.discriminator(img) # Generator image as input for the discriminator
+        self.combined = Model(
+            inputs=z,
+            outputs=d_pred
+        )
         self.combined.compile(
-            loss='binary_crossentropy',
-            optimizer=optimizer
+            loss="binary_crossentropy",
+            optimizer=optimizer_generator,
+            metrics=[]
         )
 
-    def train(self, epochs, batch_size=128, sample_interval=50):
+    def train_generator(self, noise, y_real):
+        g_loss = self.combined.train_on_batch(x=noise, y=y_real)
+        return g_loss
+
+    def train_discriminator(self, train_imgs, generated_imgs, y_real, y_fake, smooth=0.1):
+        d_loss_real = self.discriminator.train_on_batch(x=train_imgs, y=y_real * (1.0 - smooth))
+        d_loss_fake = self.discriminator.train_on_batch(x=generated_imgs, y=y_fake)
+        d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
+        return d_loss
+
+    def train(self, epochs, batch_size, sample_interval):
         # Load and rescale dataset
         cifar_data = CIFAR10()
         x_train, _ = cifar_data.get_train_set()
-        x_train = x_train / 127.5 - 1.
-        # Adversarial ground truths
-        valid = np.ones((batch_size, 1))
-        fake = np.zeros((batch_size, 1))
+        x_train = (x_train / 127.5) - 1.0
+        # Adverserial ground truths
+        y_real = np.ones(shape=(batch_size, 1))
+        y_fake = np.zeros(shape=(batch_size, 1))
 
-        # Start training
+        # Start the training
         for epoch in range(epochs):
-            # TRAINSET IMAGES
-            idx = np.random.randint(0, x_train.shape[0], batch_size)
-            imgs = x_train[idx]
-            # GENERATED IMAGES
-            noise = np.random.normal(0, 1, (batch_size, self.z_dimension))
-            gen_imgs = self.generator.predict(noise)
-            # TRAIN DISCRIMINATOR
-            d_loss_real = self.discriminator.train_on_batch(imgs, valid)
-            d_loss_fake = self.discriminator.train_on_batch(gen_imgs, fake)
-            d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
-            # TRAIN GENERATOR
-            noise = np.random.normal(0, 1, (batch_size, self.z_dimension))
-            g_loss = self.combined.train_on_batch(noise, valid)
-            # SAVE PROGRESS
+            # Trainset images
+            rand_idxs = np.random.randint(0, x_train.shape[0], batch_size)
+            train_imgs = x_train[rand_idxs]
+            # Generated images
+            noise = np.random.normal(loc=0.0, scale=1.0, size=(batch_size, self.z_dimension))
+            generated_imgs = self.generator(noise, training=False)
+            # Training
+            d_loss = self.train_discriminator(train_imgs, generated_imgs, y_real, y_fake)
+            g_loss = self.train_generator(noise, y_real)
             if (epoch % sample_interval) == 0:
                 print(
-                    f"{epoch} - D_loss: {round(d_loss[0], 4)}, "
-                    f"D_acc: {round(d_loss[1] * 100, 4)}, "
-                    f"G_loss: {round(g_loss, 4)}"
+                    f"{epoch} - D_loss: {round(d_loss[0], 4)}"
+                    f" D_acc: {round(d_loss[1], 4)}"
+                    f" G_loss: {round(g_loss, 4)}"
                 )
+            # Save the progress
+            if (epoch % sample_interval) == 0:
                 self.sample_images(epoch)
+        self.sample_images("final")
 
-    # Save sample images
     def sample_images(self, epoch):
+        """Save sample images
+
+        Parameters
+        ----------
+        epoch : int
+            Number of the current epoch
+        """
         r, c = 5, 5
-        noise = np.random.normal(0, 1, (r * c, self.z_dimension))
+        noise = np.random.normal(loc=0.0, scale=1.0, size=(r * c, self.z_dimension))
         gen_imgs = self.generator.predict(noise)
         gen_imgs = 0.5 * gen_imgs + 0.5
         fig, axs = plt.subplots(r, c)
@@ -90,16 +121,17 @@ class DCGAN():
         for i in range(r):
             for j in range(c):
                 axs[i, j].imshow(gen_imgs[cnt, :, :])
-                axs[i, j].axis('off')
+                axs[i, j].axis("off")
                 cnt += 1
-        fig.savefig(IMAGES_PATH + "/%d.png" % epoch)
+        img_name = f"{epoch}.png"
+        fig.savefig(os.path.join(IMAGES_PATH, img_name))
         plt.close()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     dcgan = DCGAN()
     dcgan.train(
-        epochs=5_000,
-        batch_size=32,
-        sample_interval=1000
+        epochs=200_000,
+        batch_size=128,
+        sample_interval=1_000
     )
