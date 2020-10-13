@@ -17,6 +17,9 @@ Chapter5_GANCode/Chapter5_2_1_DCGAN_MNIST/1_Start/
 Chapter5_GANCode/Chapter5_2_1_DCGAN_MNIST/2_Networks/
 Chapter5_GANCode/Chapter5_2_1_DCGAN_MNIST/3_Finish/
 
+Chapter5_GANCode/Chapter5_3_CGAN/1_Start/
+Chapter5_GANCode/Chapter5_3_CGAN/2_Finish/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
