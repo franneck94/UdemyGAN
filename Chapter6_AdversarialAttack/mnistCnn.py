@@ -32,7 +32,7 @@ def build_cnn():
     model.add(Dense(10))
     model.add(Activation("softmax"))
     # Print the CNN layers
-    model.summary()
+    # model.summary()
     # Model object
     img = Input(shape=(28, 28, 1))
     pred = model(img)

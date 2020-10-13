@@ -1,11 +1,11 @@
 import os
 import matplotlib.pyplot as plt
-import numpy as np
 from tensorflow.keras.layers import Activation
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import Input
-from tensorflow.keras.layers import Reshape
+from tensorflow.keras.layers import MaxPooling2D
+from tensorflow.keras.layers import UpSampling2D
+from tensorflow.keras.layers import Conv2DTranspose
 from tensorflow.keras.models import Model
 
 from mnistData import MNIST
@@ -20,20 +20,30 @@ x_test, _ = data.get_test_set()
 
 
 def build_autoencoder():
-    encoding_dim = 32
+    encoding_dim = 100
     # Input Tensors
     img_shape = (28, 28, 1)
     input_img = Input(shape=img_shape)
-    input_img_flatten = Flatten()(input_img)
     # Encoder Part
-    encoded = Dense(units=encoding_dim)(input_img_flatten) # 784 => 32
+    x = Conv2D(filters=8, kernel_size=3, padding="same")(input_img)
+    x = Activation("relu")(x)
+    x = MaxPooling2D(padding="same")(x)
+    x = Conv2D(filters=4, kernel_size=3, padding="same")(x)
+    x = Activation("relu")(x)
+    x = MaxPooling2D(padding="same")(x)
+    encoded = Conv2D(filters=2, kernel_size=3, padding="same")(x)
     encoded = Activation("relu")(encoded)
     # Decoder Part
-    decoded = Dense(units=np.prod(img_shape))(encoded) # 32 => 784
+    x = Conv2DTranspose(filters=4, kernel_size=3, strides=2, padding="same")(encoded)
+    x = Activation("relu")(x)
+    x = Conv2DTranspose(filters=4, kernel_size=3, strides=2, padding="same")(x)
+    x = Activation("relu")(x)
+    x = Conv2DTranspose(filters=4, kernel_size=3, strides=1, padding="same")(x)
+    x = Activation("relu")(x)
+    decoded = Conv2DTranspose(filters=1, kernel_size=3, strides=1, padding="same")(x)
     decoded = Activation("sigmoid")(decoded)
     # Output Tensors
-    output_img = Reshape(target_shape=img_shape)(decoded)
-    model = Model(inputs=input_img, outputs=output_img)
+    model = Model(inputs=input_img, outputs=decoded)
     model.summary()
     return model
 
@@ -48,7 +58,7 @@ def plot_imgs(test_imgs, decoded_imgs):
         # Decoded image
         ax = plt.subplot(2, 10, i + 1 + 10)
         plt.imshow(decoded_imgs[i].reshape(28, 28), cmap="gray")
-    plt.savefig(os.path.join(IMAGES_PATH, "autoencoder.png"))
+    plt.savefig(os.path.join(IMAGES_PATH, "deep_conv_autoencoder.png"))
     plt.show()
 
 
