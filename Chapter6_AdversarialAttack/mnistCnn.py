@@ -9,21 +9,22 @@ from tensorflow.keras.models import Sequential
 
 
 def build_cnn():
+    img_shape = (28, 28, 1)
     # Define the CNN
     model = Sequential()
     # Conv Block 1
-    model.add(Conv2D(32, (7, 7), input_shape=(28, 28, 1)))
-    model.add(Conv2D(32, (5, 5)))
+    model.add(Conv2D(filters=32, kernel_size=7, input_shape=img_shape))
+    model.add(Conv2D(filters=32, kernel_size=5))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Activation("relu"))
     # Conv Block 2
-    model.add(Conv2D(64, (5, 5)))
-    model.add(Conv2D(128, (3, 3)))
+    model.add(Conv2D(filters=64, kernel_size=5))
+    model.add(Conv2D(filters=128, kernel_size=3))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Activation("relu"))
     # Fully connected layer 1
     model.add(Flatten())
-    model.add(Dense(512))
+    model.add(Dense(units=512))
     model.add(Activation("relu"))
     # Fully connected layer 1
     model.add(Dense(256))
@@ -34,6 +35,6 @@ def build_cnn():
     # Print the CNN layers
     # model.summary()
     # Model object
-    img = Input(shape=(28, 28, 1))
+    img = Input(shape=img_shape)
     pred = model(img)
     return Model(inputs=img, outputs=pred)

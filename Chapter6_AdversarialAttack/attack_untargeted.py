@@ -6,39 +6,37 @@ from tensorflow.keras.optimizers import Adam
 
 from mnistCnn import build_cnn
 from mnistData import MNIST
-from plotting import plot_img
+from plotting import plot_attack
 
 
 PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
 MODELS_PATH = os.path.join(PATH, "models")
 CNN_MODEL_PATH = os.path.join(MODELS_PATH, "mnist_cnn.h5")
 
-mnistData = MNIST()
-x_train, y_train = mnistData.get_train_set()
-x_test, y_test = mnistData.get_test_set()
+mnist_data = MNIST()
+x_train, y_train = mnist_data.get_train_set()
+x_test, y_test = mnist_data.get_test_set()
 
 
 def adversarial_noise(model, image, label):
     loss_object = tf.keras.losses.CategoricalCrossentropy()
     with tf.GradientTape() as tape:
         tape.watch(image)
-        prediction = tf.reshape(model(image, training=False), (10,))
+        prediction = model(image, training=False)
+        prediction = tf.reshape(prediction, (10,))
         loss = loss_object(label, prediction)
-    # Get the gradients of the loss w.r.t to the input image.
+    # Get the gradients of the loss w.r.t. the input image
     gradient = tape.gradient(loss, image)
     # Get the sign of the gradients to create the noise
-    signed_grad = tf.sign(gradient)
-    return signed_grad
+    signed_gradient = tf.sign(gradient)
+    return signed_gradient
 
 
 def train_and_save_model():
     model = build_cnn()
-    optimizer = Adam(
-        learning_rate=0.0005
-    )
     model.compile(
         loss="categorical_crossentropy",
-        optimizer=optimizer,
+        optimizer=Adam(learning_rate=0.0005),
         metrics=["accuracy"]
     )
     model.fit(
@@ -54,10 +52,9 @@ def train_and_save_model():
 
 def load_model():
     model = build_cnn()
-    optimizer = Adam(learning_rate=0.0005)
     model.compile(
         loss="categorical_crossentropy",
-        optimizer=optimizer,
+        optimizer=Adam(learning_rate=0.0005),
         metrics=["accuracy"]
     )
     model.load_weights(filepath=CNN_MODEL_PATH)
@@ -71,26 +68,24 @@ def untargeted_attack(model):
     true_label_idx = np.argmax(true_label)
     y_pred = model.predict(image)[0]
     print("----Before Attack----")
-    print("Right class: ", true_label_idx)
-    print("Prob. right class: ", y_pred[true_label_idx])
+    print(f"True class: {true_label_idx}")
+    print(f"True class prob: {y_pred[true_label_idx]}")
 
     eps = 0.005
     image_adv = tf.convert_to_tensor(image, dtype=tf.float32)
     noise = tf.convert_to_tensor(np.zeros_like(image), dtype=tf.float32)
 
-    while (np.argmax(y_pred) == true_label_idx):
-        # image_adv = image_adv + eps * noise
+    while np.argmax(y_pred) == true_label_idx:
         noise = adversarial_noise(model, image_adv, true_label)
         if np.sum(noise) == 0.0:
             break
         image_adv = image_adv + eps * noise
-        image_adv = tf.clip_by_value(image_adv, 0, 1)
+        image_adv = tf.clip_by_value(image_adv, 0.0, 1.0)
         y_pred = model.predict(image_adv)[0]
-        print("Prob. right class: ", y_pred[true_label_idx])
-        print("Highest Prob.: ", np.max(y_pred), "\n")
+        print(f"True class prob: {y_pred[true_label_idx]}")
+        print(f"Highest prob: {np.max(y_pred)}")
 
-    plot_img(image_adv.numpy(), cmap="gray")
-    plot_img(noise.numpy(), cmap="gray")
+    plot_attack(image, image_adv.numpy())
 
 
 if __name__ == "__main__":
