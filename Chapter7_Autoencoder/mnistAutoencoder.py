@@ -1,4 +1,5 @@
 import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras.layers import Activation
@@ -14,50 +15,36 @@ from mnistData import MNIST
 PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
 IMAGES_PATH = os.path.join(PATH, "Chapter7_Autoencoder/images")
 
-data = MNIST()
-x_train, _ = data.get_train_set()
-x_test, _ = data.get_test_set()
+mnist_data = MNIST()
+x_train, _ = mnist_data.get_train_set()
+x_test, _ = mnist_data.get_test_set()
 
 
 def build_autoencoder():
     encoding_dim = 32
-    # Input Tensors
+    # Inputs
     img_shape = (28, 28, 1)
     input_img = Input(shape=img_shape)
     input_img_flatten = Flatten()(input_img)
-    # Encoder Part
-    encoded = Dense(units=encoding_dim)(input_img_flatten) # 784 => 32
+    # Encoder
+    encoded = Dense(units=encoding_dim)(input_img_flatten)
     encoded = Activation("relu")(encoded)
-    # Decoder Part
-    decoded = Dense(units=np.prod(img_shape))(encoded) # 32 => 784
+    # Decoder
+    decoded = Dense(units=np.prod(img_shape))(encoded)
     decoded = Activation("sigmoid")(decoded)
-    # Output Tensors
+    # Output
     output_img = Reshape(target_shape=img_shape)(decoded)
+    # Model
     model = Model(inputs=input_img, outputs=output_img)
     model.summary()
     return model
-
-
-def plot_imgs(test_imgs, decoded_imgs):
-    # PLot test imgs
-    plt.figure(figsize=(12, 6))
-    for i in range(10):
-        # Original image
-        ax = plt.subplot(2, 10, i + 1)
-        plt.imshow(test_imgs[i].reshape(28, 28), cmap="gray")
-        # Decoded image
-        ax = plt.subplot(2, 10, i + 1 + 10)
-        plt.imshow(decoded_imgs[i].reshape(28, 28), cmap="gray")
-    plt.savefig(os.path.join(IMAGES_PATH, "autoencoder.png"))
-    plt.show()
 
 
 def run_autoencoder(model):
     # Training
     model.compile(
         optimizer="adam",
-        loss="mse",
-        metrics=[]
+        loss="mse"
     )
     model.fit(
         x=x_train,
@@ -72,6 +59,16 @@ def run_autoencoder(model):
         x=test_imgs
     )
     return test_imgs, decoded_imgs
+
+
+def plot_imgs(test_imgs, decoded_imgs):
+    plt.figure(figsize=(12, 6))
+    for i in range(10):
+        ax = plt.subplot(2, 10, i + 1)
+        plt.imshow(test_imgs[i].reshape(28, 28), cmap="gray")
+        ax = plt.subplot(2, 10, i + 1 + 10)
+        plt.imshow(decoded_imgs[i].reshape(28, 28), cmap="gray")
+    plt.savefig(os.path.join(IMAGES_PATH, "autoencoder.png"))
 
 
 if __name__ == "__main__":

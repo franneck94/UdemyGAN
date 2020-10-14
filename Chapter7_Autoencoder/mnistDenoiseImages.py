@@ -1,12 +1,12 @@
 import os
+
 import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras.layers import Activation
-from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Input
-from tensorflow.keras.layers import MaxPooling2D
-from tensorflow.keras.layers import UpSampling2D
-from tensorflow.keras.layers import Conv2DTranspose
+from tensorflow.keras.layers import Reshape
 from tensorflow.keras.models import Model
 
 from mnistData import MNIST
@@ -15,62 +15,46 @@ from mnistData import MNIST
 PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
 IMAGES_PATH = os.path.join(PATH, "Chapter7_Autoencoder/images")
 
-data = MNIST()
-x_train, _ = data.get_train_set()
-x_test, _ = data.get_test_set()
-x_train_noise = x_train + 0.1 * np.random.normal(size=(x_train.shape))
-x_test_noise = x_test + 0.1 * np.random.normal(size=(x_test.shape))
+mnist_data = MNIST()
+x_train, _ = mnist_data.get_train_set()
+x_test, _ = mnist_data.get_test_set()
+x_train_noise = x_train + 0.1 * np.random.normal(size=x_train.shape)
+x_test_noise = x_test + 0.1 * np.random.normal(size=x_test.shape)
 
 
 def build_autoencoder():
     encoding_dim = 100
-    # Input Tensors
+    # Inputs
     img_shape = (28, 28, 1)
     input_img = Input(shape=img_shape)
-    # Encoder Part
-    x = Conv2D(filters=8, kernel_size=3, padding="same")(input_img)
-    x = Activation("relu")(x)
-    x = MaxPooling2D(padding="same")(x)
-    x = Conv2D(filters=4, kernel_size=3, padding="same")(x)
-    x = Activation("relu")(x)
-    x = MaxPooling2D(padding="same")(x)
-    encoded = Conv2D(filters=2, kernel_size=3, padding="same")(x)
+    input_img_flatten = Flatten()(input_img)
+    # Encoder
+    encoded = Dense(units=256)(input_img_flatten)
     encoded = Activation("relu")(encoded)
-    # Decoder Part
-    x = Conv2DTranspose(filters=4, kernel_size=3, strides=2, padding="same")(encoded)
-    x = Activation("relu")(x)
-    x = Conv2DTranspose(filters=4, kernel_size=3, strides=2, padding="same")(x)
-    x = Activation("relu")(x)
-    x = Conv2DTranspose(filters=4, kernel_size=3, strides=1, padding="same")(x)
-    x = Activation("relu")(x)
-    decoded = Conv2DTranspose(filters=1, kernel_size=3, strides=1, padding="same")(x)
+    encoded = Dense(units=128)(encoded)
+    encoded = Activation("relu")(encoded)
+    encoded = Dense(units=encoding_dim)(encoded)
+    encoded = Activation("relu")(encoded)
+    # Decoder
+    decoded = Dense(units=128)(encoded)
+    decoded = Activation("relu")(decoded)
+    decoded = Dense(units=256)(decoded)
+    decoded = Activation("relu")(decoded)
+    decoded = Dense(units=np.prod(img_shape))(decoded)
     decoded = Activation("sigmoid")(decoded)
-    # Output Tensors
-    model = Model(inputs=input_img, outputs=decoded)
+    # Output
+    output_img = Reshape(target_shape=img_shape)(decoded)
+    # Model
+    model = Model(inputs=input_img, outputs=output_img)
     model.summary()
     return model
-
-
-def plot_imgs(test_imgs, decoded_imgs):
-    # PLot test imgs
-    plt.figure(figsize=(12, 6))
-    for i in range(10):
-        # Original image
-        ax = plt.subplot(2, 10, i + 1)
-        plt.imshow(test_imgs[i].reshape(28, 28), cmap="gray")
-        # Decoded image
-        ax = plt.subplot(2, 10, i + 1 + 10)
-        plt.imshow(decoded_imgs[i].reshape(28, 28), cmap="gray")
-    plt.savefig(os.path.join(IMAGES_PATH, "denoise_autoencoder.png"))
-    plt.show()
 
 
 def run_autoencoder(model):
     # Training
     model.compile(
         optimizer="adam",
-        loss="mse",
-        metrics=[]
+        loss="mse"
     )
     model.fit(
         x=x_train_noise,
@@ -85,6 +69,16 @@ def run_autoencoder(model):
         x=test_imgs
     )
     return test_imgs, decoded_imgs
+
+
+def plot_imgs(test_imgs, decoded_imgs):
+    plt.figure(figsize=(12, 6))
+    for i in range(10):
+        ax = plt.subplot(2, 10, i + 1)
+        plt.imshow(test_imgs[i].reshape(28, 28), cmap="gray")
+        ax = plt.subplot(2, 10, i + 1 + 10)
+        plt.imshow(decoded_imgs[i].reshape(28, 28), cmap="gray")
+    plt.savefig(os.path.join(IMAGES_PATH, "denoise_autoencoder.png"))
 
 
 if __name__ == "__main__":
