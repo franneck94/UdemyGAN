@@ -106,7 +106,7 @@ def generate_and_save_images(model, epoch, test_sample):
 
 
 if __name__ == "__main__":
-    epochs = 100
+    epochs = 20
     latent_dim = 2
     num_examples_to_generate = 16
     optimizer = tf.keras.optimizers.Adam(1e-4)
