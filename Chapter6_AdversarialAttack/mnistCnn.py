@@ -27,10 +27,10 @@ def build_cnn():
     model.add(Dense(units=512))
     model.add(Activation("relu"))
     # Fully connected layer 1
-    model.add(Dense(256))
+    model.add(Dense(units=256))
     model.add(Activation("relu"))
     # Output layer
-    model.add(Dense(10))
+    model.add(Dense(units=10))
     model.add(Activation("softmax"))
     # Print the CNN layers
     # model.summary()

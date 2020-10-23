@@ -21,7 +21,7 @@ def build_generator(z_dimension, img_shape, num_classes):
     x = BatchNormalization()(x)
     x = Dense(np.prod(img_shape))(x)
     x = Activation("tanh")(x)
-    img = Reshape(img_shape)(x)
+    img = Reshape(target_shape=img_shape)(x)
     model = Model(
         inputs=[noise, label],
         outputs=img

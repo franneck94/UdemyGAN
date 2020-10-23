@@ -19,9 +19,9 @@ def build_generator(z_dimension, img_shape, num_classes):
     x = Dense(units=1024)(x)
     x = LeakyReLU(alpha=0.2)(x)
     x = BatchNormalization()(x)
-    x = Dense(np.prod(img_shape))(x)
+    x = Dense(units=np.prod(img_shape))(x)
     x = Activation("tanh")(x)
-    img = Reshape(img_shape)(x)
+    img = Reshape(target_shape=img_shape)(x)
     model = Model(
         inputs=[noise, label],
         outputs=img

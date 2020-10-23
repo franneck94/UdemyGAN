@@ -28,7 +28,7 @@ class CVAE(tf.keras.Model):
         self.encoder.add(tf.keras.layers.Conv2D(filters=64, kernel_size=3, strides=2, padding="same"))
         self.encoder.add(tf.keras.layers.Activation("relu"))
         self.encoder.add(tf.keras.layers.Flatten())
-        self.encoder.add(tf.keras.layers.Dense(latent_dim + latent_dim))
+        self.encoder.add(tf.keras.layers.Dense(units=latent_dim + latent_dim))
         self.encoder.summary()
 
         self.decoder = tf.keras.Sequential()

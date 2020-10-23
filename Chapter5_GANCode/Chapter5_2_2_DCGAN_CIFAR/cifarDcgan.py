@@ -65,8 +65,8 @@ class DCGAN:
         g_loss = self.combined.train_on_batch(x=noise, y=y_real)
         return g_loss
 
-    def train_discriminator(self, train_imgs, generated_imgs, y_real, y_fake, smooth=0.02):
-        d_loss_real = self.discriminator.train_on_batch(x=train_imgs, y=y_real * (1.0 - smooth))
+    def train_discriminator(self, train_imgs, generated_imgs, y_real, y_fake):
+        d_loss_real = self.discriminator.train_on_batch(x=train_imgs, y=y_real)
         d_loss_fake = self.discriminator.train_on_batch(x=generated_imgs, y=y_fake)
         d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
         return d_loss
