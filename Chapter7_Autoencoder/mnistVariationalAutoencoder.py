@@ -36,11 +36,11 @@ class CVAE(tf.keras.Model):
         self.decoder.add(tf.keras.layers.Dense(units=7 * 7 * 32))
         self.decoder.add(tf.keras.layers.Activation("relu"))
         self.decoder.add(tf.keras.layers.Reshape(target_shape=(7, 7, 32)))
-        self.decoder.add(tf.keras.layers.Conv2DTranspose(filters=64, kernel_size=3, strides=2, padding='same'))
+        self.decoder.add(tf.keras.layers.Conv2DTranspose(filters=64, kernel_size=3, strides=2, padding="same"))
         self.decoder.add(tf.keras.layers.Activation("relu"))
-        self.decoder.add(tf.keras.layers.Conv2DTranspose(filters=32, kernel_size=3, strides=2, padding='same'))
+        self.decoder.add(tf.keras.layers.Conv2DTranspose(filters=32, kernel_size=3, strides=2, padding="same"))
         self.decoder.add(tf.keras.layers.Activation("relu"))
-        self.decoder.add(tf.keras.layers.Conv2DTranspose(filters=1, kernel_size=3, strides=1, padding='same'))
+        self.decoder.add(tf.keras.layers.Conv2DTranspose(filters=1, kernel_size=3, strides=1, padding="same"))
         self.decoder.summary()
 
     @tf.function
@@ -95,14 +95,14 @@ def generate_and_save_images(model, epoch, test_sample):
     mean, logvar = model.encode(test_sample)
     z = model.reparameterize(mean, logvar)
     predictions = model.sample(z)
-    fig = plt.figure(figsize=(4, 4))
+    _ = plt.figure(figsize=(4, 4))
 
     for i in range(predictions.shape[0]):
         plt.subplot(4, 4, i + 1)
-        plt.imshow(predictions[i, :, :, 0], cmap='gray')
-        plt.axis('off')
+        plt.imshow(predictions[i, :, :, 0], cmap="gray")
+        plt.axis("off")
 
-    plt.savefig(os.path.join(IMAGES_PATH, 'image_at_epoch_{:04d}.png'.format(epoch)))
+    plt.savefig(os.path.join(IMAGES_PATH, f"image_at_epoch_{epoch:04d}.png"))
 
 
 if __name__ == "__main__":
@@ -127,6 +127,6 @@ if __name__ == "__main__":
         loss = tf.keras.metrics.Mean()
         loss(compute_loss(model, x_test))
         elbo = -loss.result()
-        print('Epoch: {}, Test set ELBO: {}, time elapse for current epoch: {}'.format(epoch, elbo, end_time - start_time))
+        print(f"Epoch: {epoch}, Test set ELBO: {elbo}, time elapse for current epoch: {end_time - start_time}")
         if epoch % 10 == 0:
             generate_and_save_images(model, epoch, x_test[:10])

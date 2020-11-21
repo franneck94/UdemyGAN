@@ -72,9 +72,9 @@ def run_autoencoder(model):
 def plot_imgs(test_imgs, decoded_imgs):
     plt.figure(figsize=(12, 6))
     for i in range(10):
-        ax = plt.subplot(2, 10, i + 1)
+        _ = plt.subplot(2, 10, i + 1)
         plt.imshow(test_imgs[i].reshape(28, 28), cmap="gray")
-        ax = plt.subplot(2, 10, i + 1 + 10)
+        _ = plt.subplot(2, 10, i + 1 + 10)
         plt.imshow(decoded_imgs[i].reshape(28, 28), cmap="gray")
     plt.savefig(os.path.join(IMAGES_PATH, "deep_autoencoder.png"))
 

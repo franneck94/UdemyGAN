@@ -7,9 +7,9 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
 
-from mnistData import MNIST
 from mnistCganDiscriminator import build_discriminator
 from mnistCganGenerator import build_generator
+from mnistData import MNIST
 
 
 PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")

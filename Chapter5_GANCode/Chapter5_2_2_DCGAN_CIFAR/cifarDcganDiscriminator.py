@@ -12,16 +12,16 @@ from tensorflow.keras.models import Sequential
 
 def build_discriminator(img_shape):
     model = Sequential() # 32x32x3
-    model.add(Conv2D(filters=32, kernel_size=3, strides=2, padding='same', input_shape=(img_shape)))
+    model.add(Conv2D(filters=32, kernel_size=3, strides=2, padding="same", input_shape=(img_shape)))
     model.add(LeakyReLU(alpha=0.1))
     model.add(Dropout(rate=0.3))
-    model.add(Conv2D(filters=64, kernel_size=3, strides=2, padding='same'))
+    model.add(Conv2D(filters=64, kernel_size=3, strides=2, padding="same"))
     model.add(LeakyReLU(alpha=0.1))
     model.add(Dropout(rate=0.3))
-    model.add(Conv2D(filters=128, kernel_size=3, strides=2, padding='same'))
+    model.add(Conv2D(filters=128, kernel_size=3, strides=2, padding="same"))
     model.add(LeakyReLU(alpha=0.1))
     model.add(Dropout(rate=0.3))
-    model.add(Conv2D(filters=256, kernel_size=3, strides=2, padding='same'))
+    model.add(Conv2D(filters=256, kernel_size=3, strides=2, padding="same"))
     model.add(LeakyReLU(alpha=0.1))
     model.add(Dropout(rate=0.3))
     model.add(Flatten())

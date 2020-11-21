@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Conv2DTranspose
+from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
 
 from mnistData import MNIST
@@ -20,7 +20,7 @@ x_test, _ = mnist_data.get_test_set()
 
 
 def build_autoencoder():
-    encoding_dim = 8
+    # encoding_dim = 8
     # Inputs
     img_shape = (28, 28, 1)
     input_img = Input(shape=img_shape)
@@ -70,9 +70,9 @@ def run_autoencoder(model):
 def plot_imgs(test_imgs, decoded_imgs):
     plt.figure(figsize=(12, 6))
     for i in range(10):
-        ax = plt.subplot(2, 10, i + 1)
+        _ = plt.subplot(2, 10, i + 1)
         plt.imshow(test_imgs[i].reshape(28, 28), cmap="gray")
-        ax = plt.subplot(2, 10, i + 1 + 10)
+        _ = plt.subplot(2, 10, i + 1 + 10)
         plt.imshow(decoded_imgs[i].reshape(28, 28), cmap="gray")
     plt.savefig(os.path.join(IMAGES_PATH, "deep_conv_autoencoder.png"))
 

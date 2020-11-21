@@ -9,8 +9,8 @@ class CIFAR10:
         self.x_train = self.x_train.reshape(self.x_train.shape[0], 32, 32, 3)
         self.x_test = self.x_test.reshape(self.x_test.shape[0], 32, 32, 3)
         # convert from int to float
-        self.x_train = self.x_train.astype('float32')
-        self.x_test = self.x_test.astype('float32')
+        self.x_train = self.x_train.astype("float32")
+        self.x_test = self.x_test.astype("float32")
         # Save dataset sizes
         self.train_size = self.x_train.shape[0]
         self.test_size = self.x_test.shape[0]
