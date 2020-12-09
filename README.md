@@ -3,8 +3,8 @@
 Dies ist der Code zu meinem Udemy Kurs:
 *Deep Learning: Generative Neuronale Netzwerke mit Python* von Jan Schaffranek.
 
-Erhalte den Kurs vom 7.11.2020 bis zum 7.12.2020 für nur 12,99€*.
-Rabatt-Link: [GAN Kurs im Rabatt](https://www.udemy.com/course/deep-learning-und-ai-generative-neural-networks-mit-python/?couponCode=FRANNECK_NOV_2020)
+Erhalte den Kurs vom 01.12.2020 bis zum 31.12.2020 zum aktuellen Bestpreis.
+Rabatt-Link: [GAN Kurs im Rabatt](https://www.udemy.com/course/deep-learning-und-ai-generative-neural-networks-mit-python/?couponCode=FRANNECK_DEC_2020)
 
 ## Bewertungen von Kursteilnehmern
 
@@ -31,13 +31,8 @@ Ebenfalls werden zu allen Lektionen weiterführende Materialien verlinkt und der
 - Die Komprimierung von Daten mit Autoencodern (AE)
 - Das Erzeugen von Daten mit Variational Autoencoder (VAE)
 
-## Warum sollte man TensorFlow und Keras verwenden
-
-TensorFlow ist eine Open-Source Software Bibliothek von Googles, mit der man sehr effiziente Neuronale Netzwerke implementieren kann.
-Keras ist ein Software-Paket, welches zahlreiche vordefinierte Funktionen für TensorFlow bereithält.
-Diese Software wird von einigen Big Playern weltweit genutzt, darunter sind z. B. Ebay, Dropbox, Snapchat, Twitter, SAP, IBM, Intel und Google!
-
-Werde noch heute ein Profi, in der Technologie von Morgen!Wir sehen uns im Kurs!
+Werde noch heute ein Profi, in der Technologie von Morgen!
+Wir sehen uns im Kurs!
 
 
 \* Alle Angaben ohne Gewähr
