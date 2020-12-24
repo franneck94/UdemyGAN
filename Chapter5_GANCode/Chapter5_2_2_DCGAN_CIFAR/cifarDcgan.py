@@ -11,7 +11,7 @@ from cifarDcganDiscriminator import build_discriminator
 from cifarDcganGenerator import build_generator
 
 
-PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
+PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Coding/UdemyGAN")
 IMAGES_PATH = os.path.join(PATH, "Chapter5_GANCode/Chapter5_2_2_DCGAN_CIFAR/images")
 
 

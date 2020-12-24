@@ -12,7 +12,7 @@ from mnistCganGenerator import build_generator
 from mnistData import MNIST
 
 
-PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
+PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Coding/UdemyGAN")
 IMAGES_PATH = os.path.join(PATH, "Chapter5_GANCode/Chapter5_3_CGAN/images")
 
 

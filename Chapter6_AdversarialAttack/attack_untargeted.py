@@ -9,7 +9,7 @@ from mnistData import MNIST
 from plotting import plot_attack
 
 
-PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Programmieren/UdemyGAN")
+PATH = os.path.abspath("C:/Users/Jan/Dropbox/_Coding/UdemyGAN")
 MODELS_PATH = os.path.join(PATH, "models")
 CNN_MODEL_PATH = os.path.join(MODELS_PATH, "mnist_cnn.h5")
 
