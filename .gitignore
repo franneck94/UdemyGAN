@@ -3,11 +3,9 @@ models/
 ressources/
 Chapter1_Introduction/
 Chapter4_GANTheory/
-**lectures/
 **/**/images/*
 *.png
 *.isorted
-lectures/
 
 Chapter5_GANCode/Chapter5_1_GAN/1_Preparation/
 Chapter5_GANCode/Chapter5_1_GAN/2_Networks/
