@@ -3,8 +3,8 @@
 Dies ist der Code zu meinem Udemy Kurs:
 *Deep Learning: Generative Neuronale Netzwerke mit Python* von Jan Schaffranek.
 
-Der aktuelle Rabatt-Code lautet: FRANNECK_MAR_2021.
-Rabatt-Link: [GAN Kurs im Rabatt](https://www.udemy.com/course/deep-learning-und-ai-generative-neural-networks-mit-python/?couponCode=FRANNECK_MAR_2021)
+Der aktuelle Rabatt-Code lautet: FRANNECK_APR_2021.
+Rabatt-Link: [GAN Kurs im Rabatt](https://www.udemy.com/course/deep-learning-und-ai-generative-neural-networks-mit-python/?couponCode=FRANNECK_APR_2021)
 
 ## Bewertungen von Kursteilnehmern
 
