@@ -1,6 +1,5 @@
 import os
 import time
-from typing import Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -75,7 +74,7 @@ class CVAE(Model):
         self.decoder.summary()
 
     @tf.function
-    def sample(self, eps: Optional[tf.Tensor] = None) -> tf.Tensor:
+    def sample(self, eps: tf.Tensor | None = None) -> tf.Tensor:
         if eps is None:
             eps = tf.random.normal(shape=(100, self.latent_dim))
         return self.decode(eps, apply_sigmoid=True)
@@ -91,8 +90,7 @@ class CVAE(Model):
     def decode(self, z: tf.Tensor, apply_sigmoid: bool = False) -> tf.Tensor:
         logits = self.decoder(z)
         if apply_sigmoid:
-            probs = tf.sigmoid(logits)
-            return probs
+            return tf.sigmoid(logits)
         return logits
 
 

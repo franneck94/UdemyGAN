@@ -4,7 +4,7 @@ from keras.utils import to_categorical
 
 
 class MNIST:
-    def __init__(self):
+    def __init__(self) -> None:
         (_x_train, _y_train), (_x_test, _y_test) = mnist.load_data()
         # reshape
         self.x_train: np.ndarray = _x_train.reshape(

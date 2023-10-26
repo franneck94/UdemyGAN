@@ -4,7 +4,7 @@ from keras.utils import to_categorical
 
 
 class MNIST:
-    def __init__(self):
+    def __init__(self) -> None:
         (self.x_train, self.y_train), (
             self.x_test,
             self.y_test,

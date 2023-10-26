@@ -97,7 +97,7 @@ exclude = ["examples"]
 target-version = "py310"
 select = ["F", "E"]
 extend-select = ["W", "C90", "I", "N", "UP", "YTT", "ANN", "ASYNC", "B", "A", "C4", "DTZ", "FA", "ISC", "ICN", "PIE", "PYI", "PT", "RET", "SLOT", "SIM", "ARG", "PTH", "PD", "PLC", "PLE", "PLR", "PLW", "FLY", "NPY", "PERF", "RUF"]
-ignore = ["I001", "ANN401", "SIM300", "PERF203", "ANN101", "B905"]
+ignore = ["I001", "ANN401", "SIM300", "PERF203", "ANN101", "B905", "ANN", "PTH", "NPY"]
 fixable = ["F", "E", "W", "C90", "I", "N", "UP", "YTT", "ANN", "ASYNC", "B", "A", "C4", "DTZ", "FA", "ISC", "ICN", "PIE", "PYI", "PT", "RET", "SLOT", "SIM", "ARG", "PTH", "PD", "PLC", "PLE", "PLR", "PLW", "FLY", "NPY", "PERF", "RUF"]
 unfixable = []
 line-length = 80
@@ -116,12 +116,6 @@ convention = "numpy"
 [tool.ruff.flake8-annotations]
 allow-star-arg-any = false
 ignore-fully-untyped = false
-[tool.ruff.pylint]
-max-branches = 24
-max-returns = 12
-max-statements = 100
-max-args = 15
-allow-magic-value-types = ["str", "bytes", "complex", "float", "int", "tuple"]
 
 [tool.pyright]
 pythonVersion = "3.10"

@@ -1,5 +1,4 @@
 import os
-from typing import Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -91,7 +90,7 @@ class DCGAN:
                 self.sample_images(epoch)
         self.sample_images("final")
 
-    def sample_images(self, epoch: Union[str, int]) -> None:
+    def sample_images(self, epoch: str | int) -> None:
         """Save sample images
 
         Parameters

@@ -32,8 +32,7 @@ def adversarial_noise(
     # Get the gradients of the loss w.r.t. the input image
     gradient = tape.gradient(loss, image)
     # Get the sign of the gradients to create the noise
-    signed_gradient = tf.sign(gradient)
-    return signed_gradient
+    return tf.sign(gradient)
 
 
 def train_and_save_model():

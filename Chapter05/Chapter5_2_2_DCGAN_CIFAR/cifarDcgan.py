@@ -1,5 +1,4 @@
 import os
-from typing import Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -56,8 +55,7 @@ class DCGAN:
         )
 
     def train_generator(self, noise: tf.Tensor, y_real: tf.Tensor) -> tf.Tensor:
-        g_loss = self.combined.train_on_batch(x=noise, y=y_real)
-        return g_loss
+        return self.combined.train_on_batch(x=noise, y=y_real)
 
     def train_discriminator(
         self,
@@ -70,8 +68,7 @@ class DCGAN:
         d_loss_fake = self.discriminator.train_on_batch(
             x=generated_imgs, y=y_fake
         )
-        d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
-        return d_loss
+        return 0.5 * np.add(d_loss_real, d_loss_fake)
 
     def train(self, epochs: int, batch_size: int, sample_interval: int) -> None:
         # Load and rescale dataset
@@ -108,7 +105,7 @@ class DCGAN:
                 self.sample_images(epoch)
         self.sample_images("final")
 
-    def sample_images(self, epoch: Union[str, int]) -> None:
+    def sample_images(self, epoch: str | int) -> None:
         """Save sample images
 
         Parameters
