@@ -19,7 +19,7 @@ opencv-python
 pyqt6
 xlrd
 openpyxl
-optuna
+packaging
 
 tensorflow==2.14.*
 keras==2.14.*

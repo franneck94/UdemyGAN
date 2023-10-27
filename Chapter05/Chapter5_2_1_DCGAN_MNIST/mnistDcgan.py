@@ -2,13 +2,22 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
 from keras.layers import Input
 from keras.models import Model
-from keras.optimizers.legacy import Adam
 
 from mnistData import MNIST
 from mnistDcganDiscriminator import build_discriminator
 from mnistDcganGenerator import build_generator
+from packaging import version
+
+
+required_version = version.parse("2.10")
+installed_version = version.parse(".".join(tf.__version__.split('.')[:2]))
+if installed_version > required_version:
+    from keras.optimizers.legacy import Adam
+else:
+    from keras.optimizers import Adam
 
 
 PATH = os.path.abspath("C:/Users/Jan/OneDrive/_Coding/UdemyGAN")
