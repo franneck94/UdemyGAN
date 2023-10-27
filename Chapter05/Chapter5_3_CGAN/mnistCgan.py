@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras.layers import Input
 from keras.models import Model
-from keras.optimizers import Adam
+from keras.optimizers.legacy import Adam
 from keras.utils import to_categorical
 
 from mnistCganDiscriminator import build_discriminator
@@ -13,7 +13,9 @@ from mnistData import MNIST
 
 
 PATH = os.path.abspath("C:/Users/Jan/OneDrive/_Coding/UdemyGAN")
-IMAGES_PATH = os.path.join(PATH, "Chapter5_GANCode/Chapter5_3_CGAN/images")
+IMAGES_PATH = os.path.join(
+    PATH, os.path.abspath("Chapter05/Chapter5_3_CGAN/images")
+)
 
 
 class CGAN:

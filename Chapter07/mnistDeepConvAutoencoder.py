@@ -12,7 +12,7 @@ from mnistData import MNIST
 
 
 PATH = os.path.abspath("C:/Users/Jan/OneDrive/_Coding/UdemyGAN")
-IMAGES_PATH = os.path.join(PATH, "Chapter7_Autoencoder/images")
+IMAGES_PATH = os.path.join(PATH, "Chapter07/images")
 
 mnist_data = MNIST()
 x_train, _ = mnist_data.get_train_set()

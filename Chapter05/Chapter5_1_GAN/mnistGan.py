@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras.layers import Input
 from keras.models import Model
-from keras.optimizers import Adam
+from keras.optimizers.legacy import Adam
 
 from mnistData import MNIST
 from mnistGanDiscriminator import build_discriminator
@@ -12,7 +12,9 @@ from mnistGanGenerator import build_generator
 
 
 PATH = os.path.abspath("C:/Users/Jan/OneDrive/_Coding/UdemyGAN")
-IMAGES_PATH = os.path.join(PATH, "Chapter5_GANCode/Chapter5_1_GAN/images")
+IMAGES_PATH = os.path.join(
+    PATH, os.path.abspath("Chapter05/Chapter5_1_GAN/images")
+)
 
 
 class GAN:

@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 from keras.layers import Input
 from keras.models import Model
-from keras.optimizers import Adam
+from keras.optimizers.legacy import Adam
 
 from cifarData import CIFAR10
 from cifarDcganDiscriminator import build_discriminator
@@ -14,7 +14,7 @@ from cifarDcganGenerator import build_generator
 
 PATH = os.path.abspath("C:/Users/Jan/OneDrive/_Coding/UdemyGAN")
 IMAGES_PATH = os.path.join(
-    PATH, "Chapter5_GANCode/Chapter5_2_2_DCGAN_CIFAR/images"
+    PATH, os.path.abspath("Chapter05/Chapter5_2_2_DCGAN_CIFAR/images")
 )
 
 
