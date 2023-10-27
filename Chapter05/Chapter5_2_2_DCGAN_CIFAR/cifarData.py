@@ -5,9 +5,12 @@ from keras.utils import to_categorical
 
 class CIFAR10:
     def __init__(self) -> None:
-        (self.x_train, self.y_train), (
-            self.x_test,
-            self.y_test,
+        (
+            (self.x_train, self.y_train),
+            (
+                self.x_test,
+                self.y_test,
+            ),
         ) = cifar10.load_data()
         # reshape
         self.x_train = self.x_train.reshape(self.x_train.shape[0], 32, 32, 3)

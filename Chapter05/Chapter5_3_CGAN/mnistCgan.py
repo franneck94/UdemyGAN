@@ -14,7 +14,7 @@ from packaging import version
 
 
 required_version = version.parse("2.10")
-installed_version = version.parse(".".join(tf.__version__.split('.')[:2]))
+installed_version = version.parse(".".join(tf.__version__.split(".")[:2]))
 if installed_version > required_version:
     from keras.optimizers.legacy import Adam
 else:
