@@ -19,7 +19,7 @@ def should_exclude_directory(dir_name: str) -> bool:
 
 def check_file_for_not_implemented(file_path: str) -> bool:
     try:
-        with open(file_path) as file:
+        with open(file_path) as file:  # noqa: FURB101
             file_contents = file.read()
             if (
                 "pass" in file_contents
@@ -48,7 +48,7 @@ def main() -> None:
                     continue
                 try:
                     if check_file_for_not_implemented(file_path):
-                        print(f"\File: {file_path} has unfinished code")
+                        print(f"\File: {file_path} has unfinished code")  # noqa: W605
                         continue
                     print(f"\tRunning file: {file_path}")
                     with open(os.devnull, "w") as null_file:

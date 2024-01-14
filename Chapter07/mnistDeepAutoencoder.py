@@ -20,7 +20,7 @@ x_train, _ = mnist_data.get_train_set()
 x_test, _ = mnist_data.get_test_set()
 
 
-def build_autoencoder():
+def build_autoencoder() -> Model:
     encoding_dim = 8
     # Inputs
     img_shape = (28, 28, 1)
@@ -48,7 +48,7 @@ def build_autoencoder():
     return model
 
 
-def run_autoencoder(model):
+def run_autoencoder(model: Model) -> tuple:
     # Training
     model.compile(optimizer="adam", loss="mse")
     model.fit(
@@ -64,7 +64,7 @@ def run_autoencoder(model):
     return test_imgs, decoded_imgs
 
 
-def plot_imgs(test_imgs, decoded_imgs):
+def plot_imgs(test_imgs: np.ndarray, decoded_imgs: np.ndarray) -> None:
     plt.figure(figsize=(12, 6))
     for i in range(10):
         _ = plt.subplot(2, 10, i + 1)

@@ -8,7 +8,7 @@ from keras.models import Model
 from keras.models import Sequential
 
 
-def build_cnn():
+def build_cnn() -> Model:
     img_shape = (28, 28, 1)
     # Define the CNN
     model = Sequential()

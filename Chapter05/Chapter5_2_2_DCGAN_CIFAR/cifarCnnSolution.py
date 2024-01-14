@@ -10,7 +10,7 @@ from keras.optimizers import Adam
 from cifarData import CIFAR10
 
 
-def main():
+def main() -> None:
     cifar_data = CIFAR10()
     x_train, y_train = cifar_data.get_train_set()
     x_test, y_test = cifar_data.get_test_set()

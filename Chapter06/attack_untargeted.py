@@ -35,7 +35,7 @@ def adversarial_noise(
     return tf.sign(gradient)
 
 
-def train_and_save_model():
+def train_and_save_model() -> None:
     model = build_cnn()
     model.compile(
         loss="categorical_crossentropy",
@@ -53,7 +53,7 @@ def train_and_save_model():
     model.save_weights(filepath=CNN_MODEL_PATH)
 
 
-def load_model():
+def load_model() -> Model:
     model = build_cnn()
     model.compile(
         loss="categorical_crossentropy",
