@@ -6,11 +6,11 @@ import tensorflow as tf
 from keras.layers import Input
 from keras.models import Model
 from keras.utils import to_categorical
+from packaging import version
 
 from mnistCganDiscriminator import build_discriminator
 from mnistCganGenerator import build_generator
 from mnistData import MNIST
-from packaging import version
 
 
 required_version = version.parse("2.10")

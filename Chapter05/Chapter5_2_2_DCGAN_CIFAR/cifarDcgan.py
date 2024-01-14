@@ -5,11 +5,11 @@ import numpy as np
 import tensorflow as tf
 from keras.layers import Input
 from keras.models import Model
+from packaging import version
 
 from cifarData import CIFAR10
 from cifarDcganDiscriminator import build_discriminator
 from cifarDcganGenerator import build_generator
-from packaging import version
 
 
 required_version = version.parse("2.10")
