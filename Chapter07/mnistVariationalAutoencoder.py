@@ -122,7 +122,13 @@ def train_step(model: CVAE, x: tf.Tensor, optimizer: Optimizer) -> None:
     with tf.GradientTape() as tape:
         loss = compute_loss(model, x)
     gradients = tape.gradient(loss, model.trainable_variables)
-    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+    optimizer.apply_gradients(
+        zip(
+            gradients,
+            model.trainable_variables,
+            strict=False,
+        )
+    )
 
 
 def generate_and_save_images(
