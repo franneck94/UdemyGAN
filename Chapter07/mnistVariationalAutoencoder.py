@@ -83,7 +83,7 @@ class CVAE(Model):
         mean, logvar = tf.split(self.encoder(x), num_or_size_splits=2, axis=1)
         return mean, logvar
 
-    def reparameterize(self, mean: tf.Tensor, logvar: tf.Tensor) -> tf.Tensor:  # noqa: PLR6301
+    def reparameterize(self, mean: tf.Tensor, logvar: tf.Tensor) -> tf.Tensor:
         eps = tf.random.normal(shape=mean.shape)
         return eps * tf.exp(logvar * 0.5) + mean
 
