@@ -8,7 +8,10 @@ class MNIST:
         (_x_train, _y_train), (_x_test, _y_test) = mnist.load_data()
         # reshape
         self.x_train: np.ndarray = _x_train.reshape(
-            _x_train.shape[0], 28, 28, 1
+            _x_train.shape[0],
+            28,
+            28,
+            1,
         )
         self.x_test: np.ndarray = _x_test.reshape(_x_test.shape[0], 28, 28, 1)
         # convert from int to float

@@ -10,7 +10,9 @@ from keras.models import Model
 
 
 def build_generator(
-    z_dimension: int, img_shape: tuple, num_classes: int
+    z_dimension: int,
+    img_shape: tuple,
+    num_classes: int,
 ) -> Model:
     noise = Input(shape=(z_dimension,))
     label = Input(shape=(num_classes,))
@@ -34,5 +36,7 @@ if __name__ == "__main__":
     img_shape = (28, 28, 1)
     num_classes = 10
     model = build_generator(
-        z_dimension=z_dimension, img_shape=img_shape, num_classes=num_classes
+        z_dimension=z_dimension,
+        img_shape=img_shape,
+        num_classes=num_classes,
     )

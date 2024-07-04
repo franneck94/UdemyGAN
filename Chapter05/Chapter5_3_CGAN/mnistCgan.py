@@ -22,7 +22,8 @@ else:
 
 PATH = os.path.abspath("C:/Users/Jan/OneDrive/_Coding/UdemyGAN")
 IMAGES_PATH = os.path.join(
-    PATH, os.path.abspath("Chapter05/Chapter5_3_CGAN/images")
+    PATH,
+    os.path.abspath("Chapter05/Chapter5_3_CGAN/images"),
 )
 
 
@@ -38,7 +39,8 @@ class CGAN:
         optimizer = Adam(learning_rate=0.0002, beta_1=0.5)
         # Build Discriminator
         self.discriminator = build_discriminator(
-            img_shape=self.img_shape, num_classes=self.num_classes
+            img_shape=self.img_shape,
+            num_classes=self.num_classes,
         )
         self.discriminator.compile(
             loss="binary_crossentropy",
@@ -58,11 +60,13 @@ class CGAN:
             False  # Set the discriminator in non-trainable mode
         )
         d_pred = self.discriminator(
-            [img, label]
+            [img, label],
         )  # Generator image as input for the discriminator
         self.combined = Model(inputs=[noise, label], outputs=d_pred)
         self.combined.compile(
-            loss="binary_crossentropy", optimizer=optimizer, metrics=[]
+            loss="binary_crossentropy",
+            optimizer=optimizer,
+            metrics=[],
         )
 
     def train(self, epochs: int, batch_size: int, sample_interval: int) -> None:
@@ -82,22 +86,29 @@ class CGAN:
             train_labels = y_train[rand_idxs]
             # Generated images
             noise = np.random.normal(
-                loc=0.0, scale=1.0, size=(batch_size, self.z_dimension)
+                loc=0.0,
+                scale=1.0,
+                size=(batch_size, self.z_dimension),
             )
             generated_imgs = self.generator(
-                [noise, train_labels], training=False
+                [noise, train_labels],
+                training=False,
             )
             # Train the discriminator
             d_loss_real = self.discriminator.train_on_batch(
-                [train_imgs, train_labels], y_real
+                [train_imgs, train_labels],
+                y_real,
             )
             d_loss_fake = self.discriminator.train_on_batch(
-                [generated_imgs, train_labels], y_fake
+                [generated_imgs, train_labels],
+                y_fake,
             )
             d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
             # Train the generator
             noise = np.random.normal(
-                loc=0.0, scale=1.0, size=(batch_size, self.z_dimension)
+                loc=0.0,
+                scale=1.0,
+                size=(batch_size, self.z_dimension),
             )
             g_loss = self.combined.train_on_batch([noise, train_labels], y_real)
             # Save the progress
@@ -105,13 +116,13 @@ class CGAN:
                 print(
                     f"{epoch} - D_loss: {round(d_loss[0], 4)}"
                     f" D_acc: {round(d_loss[1], 4)}"
-                    f" G_loss: {round(g_loss, 4)}"
+                    f" G_loss: {round(g_loss, 4)}",
                 )
                 self.sample_images(epoch)
         self.sample_images("final")
 
     def sample_images(self, epoch: str | int) -> None:
-        """Save sample images
+        """Save sample images.
 
         Parameters
         ----------
@@ -120,11 +131,14 @@ class CGAN:
         """
         r, c = 2, 5
         noise = np.random.normal(
-            loc=0.0, scale=1.0, size=(r * c, self.z_dimension)
+            loc=0.0,
+            scale=1.0,
+            size=(r * c, self.z_dimension),
         )
         labels = np.random.randint(0, self.num_classes, 10)
         labels_categorical = to_categorical(
-            labels, num_classes=self.num_classes
+            labels,
+            num_classes=self.num_classes,
         )
         gen_imgs = self.generator.predict([noise, labels_categorical])
         gen_imgs = 0.5 * gen_imgs + 0.5

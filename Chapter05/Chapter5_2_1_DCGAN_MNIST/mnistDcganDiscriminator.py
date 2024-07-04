@@ -18,12 +18,12 @@ def build_discriminator(img_shape: tuple) -> Model:
             strides=2,
             padding="same",
             input_shape=img_shape,
-        )
+        ),
     )  # 28x28x1 => 14x14x64
     model.add(LeakyReLU(alpha=0.2))
     model.add(Dropout(rate=0.3))
     model.add(
-        Conv2D(filters=128, kernel_size=5, strides=2, padding="same")
+        Conv2D(filters=128, kernel_size=5, strides=2, padding="same"),
     )  # 14x14x62 => 7x7x128
     model.add(LeakyReLU(alpha=0.2))
     model.add(Dropout(rate=0.3))

@@ -26,32 +26,44 @@ def build_autoencoder() -> Model:
     input_img = Input(shape=img_shape)
     # Encoder
     encoded = Conv2D(filters=8, kernel_size=3, strides=2, padding="same")(
-        input_img
+        input_img,
     )
     encoded = Activation("relu")(encoded)
     encoded = Conv2D(filters=4, kernel_size=3, strides=2, padding="same")(
-        encoded
+        encoded,
     )
     encoded = Activation("relu")(encoded)
     encoded = Conv2D(filters=1, kernel_size=3, strides=1, padding="same")(
-        encoded
+        encoded,
     )
     encoded = Activation("relu")(encoded)
     # Decoder
     decoded = Conv2DTranspose(
-        filters=4, kernel_size=3, strides=2, padding="same"
+        filters=4,
+        kernel_size=3,
+        strides=2,
+        padding="same",
     )(encoded)
     decoded = Activation("relu")(decoded)
     decoded = Conv2DTranspose(
-        filters=4, kernel_size=3, strides=2, padding="same"
+        filters=4,
+        kernel_size=3,
+        strides=2,
+        padding="same",
     )(decoded)
     decoded = Activation("relu")(decoded)
     decoded = Conv2DTranspose(
-        filters=4, kernel_size=3, strides=1, padding="same"
+        filters=4,
+        kernel_size=3,
+        strides=1,
+        padding="same",
     )(decoded)
     decoded = Activation("relu")(decoded)
     decoded = Conv2DTranspose(
-        filters=1, kernel_size=3, strides=1, padding="same"
+        filters=1,
+        kernel_size=3,
+        strides=1,
+        padding="same",
     )(decoded)
     output_img = Activation("sigmoid")(decoded)
     # Model

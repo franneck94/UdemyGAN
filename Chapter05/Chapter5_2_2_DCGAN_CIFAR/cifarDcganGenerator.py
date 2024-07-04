@@ -16,24 +16,27 @@ def build_generator(z_dimension: int, img_shape: tuple) -> Model:
     model.add(BatchNormalization())
     model.add(LeakyReLU(alpha=0.2))
     model.add(
-        Conv2DTranspose(filters=256, kernel_size=3, strides=2, padding="same")
+        Conv2DTranspose(filters=256, kernel_size=3, strides=2, padding="same"),
     )
     model.add(BatchNormalization())
     model.add(LeakyReLU(alpha=0.2))
     model.add(
-        Conv2DTranspose(filters=128, kernel_size=3, strides=2, padding="same")
+        Conv2DTranspose(filters=128, kernel_size=3, strides=2, padding="same"),
     )
     model.add(BatchNormalization())
     model.add(LeakyReLU(alpha=0.2))
     model.add(
-        Conv2DTranspose(filters=64, kernel_size=3, strides=2, padding="same")
+        Conv2DTranspose(filters=64, kernel_size=3, strides=2, padding="same"),
     )
     model.add(BatchNormalization())
     model.add(LeakyReLU(alpha=0.2))
     model.add(
         Conv2DTranspose(
-            filters=img_shape[-1], kernel_size=3, strides=2, padding="same"
-        )
+            filters=img_shape[-1],
+            kernel_size=3,
+            strides=2,
+            padding="same",
+        ),
     )
     model.add(Activation("tanh"))
     model.summary()

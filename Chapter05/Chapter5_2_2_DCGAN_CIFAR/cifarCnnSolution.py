@@ -24,30 +24,30 @@ def main() -> None:
             kernel_size=(3, 3),
             input_shape=(32, 32, 3),
             padding="same",
-        )
+        ),
     )  # 16x16x32
     model.add(
-        Conv2D(filters=64, kernel_size=(3, 3), padding="same")
+        Conv2D(filters=64, kernel_size=(3, 3), padding="same"),
     )  # 16x16x64
     model.add(MaxPooling2D(pool_size=(2, 2)))  # 16x16x64
     model.add(Activation("relu"))  # 16x16x64
     model.add(BatchNormalization())  # 16x16x64
     # Conv Block 2
     model.add(
-        Conv2D(filters=128, kernel_size=(3, 3), padding="same")
+        Conv2D(filters=128, kernel_size=(3, 3), padding="same"),
     )  # 16x16x128
     model.add(
-        Conv2D(filters=128, kernel_size=(3, 3), padding="same")
+        Conv2D(filters=128, kernel_size=(3, 3), padding="same"),
     )  # 16x16x256
     model.add(MaxPooling2D(pool_size=(2, 2)))  # 8x8x256
     model.add(Activation("relu"))  # 8x8x256
     model.add(BatchNormalization())  # 8x8x256
     # Conv Block 3
     model.add(
-        Conv2D(filters=256, kernel_size=(3, 3), padding="same")
+        Conv2D(filters=256, kernel_size=(3, 3), padding="same"),
     )  # 8x8x512
     model.add(
-        Conv2D(filters=256, kernel_size=(3, 3), padding="same")
+        Conv2D(filters=256, kernel_size=(3, 3), padding="same"),
     )  # 8x8x1024
     model.add(MaxPooling2D(pool_size=(2, 2)))  # 4x4x1024
     model.add(Activation("relu"))  # 4x4x1024

@@ -18,7 +18,7 @@ def build_discriminator(img_shape: tuple) -> Model:
             strides=2,
             padding="same",
             input_shape=(img_shape),
-        )
+        ),
     )
     model.add(LeakyReLU(alpha=0.1))
     model.add(Dropout(rate=0.3))

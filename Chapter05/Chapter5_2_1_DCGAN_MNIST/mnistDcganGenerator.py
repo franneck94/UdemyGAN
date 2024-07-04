@@ -23,15 +23,19 @@ def build_generator(z_dimension: int, img_shape: tuple) -> Model:
             strides=1,
             padding="same",
             use_bias=False,
-        )
+        ),
     )  # 14x14x128
     model.add(BatchNormalization())  # 14x14x128
     model.add(LeakyReLU(alpha=0.2))  # 14x14x128
     model.add(UpSampling2D())  # 28x28x128
     model.add(
         Conv2D(
-            filters=64, kernel_size=5, strides=1, padding="same", use_bias=False
-        )
+            filters=64,
+            kernel_size=5,
+            strides=1,
+            padding="same",
+            use_bias=False,
+        ),
     )  # 28x28x64
     model.add(BatchNormalization())  # 28x28x64
     model.add(LeakyReLU(alpha=0.2))  # 28x28x64
@@ -42,7 +46,7 @@ def build_generator(z_dimension: int, img_shape: tuple) -> Model:
             strides=1,
             padding="same",
             use_bias=False,
-        )
+        ),
     )  # 28x28x1
     model.add(Activation("tanh"))  # (-1 ,1)
     model.summary()

@@ -22,7 +22,8 @@ else:
 
 PATH = os.path.abspath("C:/Users/Jan/OneDrive/_Coding/UdemyGAN")
 IMAGES_PATH = os.path.join(
-    PATH, os.path.abspath("Chapter05/Chapter5_2_1_DCGAN_MNIST/images")
+    PATH,
+    os.path.abspath("Chapter05/Chapter5_2_1_DCGAN_MNIST/images"),
 )
 
 
@@ -44,7 +45,8 @@ class DCGAN:
         )
         # Build Generator
         self.generator = build_generator(
-            z_dimension=self.z_dimension, img_shape=self.img_shape
+            z_dimension=self.z_dimension,
+            img_shape=self.img_shape,
         )
         z = Input(shape=(self.z_dimension,))  # Input for Generator
         img = self.generator(z)  # Generator generates an image
@@ -52,11 +54,13 @@ class DCGAN:
             False  # Set the discriminator in non-trainable mode
         )
         d_pred = self.discriminator(
-            img
+            img,
         )  # Generator image as input for the discriminator
         self.combined = Model(inputs=z, outputs=d_pred)
         self.combined.compile(
-            loss="binary_crossentropy", optimizer=optimizer, metrics=[]
+            loss="binary_crossentropy",
+            optimizer=optimizer,
+            metrics=[],
         )
 
     def train(self, epochs: int, batch_size: int, sample_interval: int) -> None:
@@ -75,18 +79,23 @@ class DCGAN:
             train_imgs = x_train[rand_idxs]
             # Generated images
             noise = np.random.normal(
-                loc=0.0, scale=1.0, size=(batch_size, self.z_dimension)
+                loc=0.0,
+                scale=1.0,
+                size=(batch_size, self.z_dimension),
             )
             generated_imgs = self.generator(noise, training=False)
             # Train the discriminator
             d_loss_real = self.discriminator.train_on_batch(train_imgs, y_real)
             d_loss_fake = self.discriminator.train_on_batch(
-                generated_imgs, y_fake
+                generated_imgs,
+                y_fake,
             )
             d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
             # Train the generator
             noise = np.random.normal(
-                loc=0.0, scale=1.0, size=(batch_size, self.z_dimension)
+                loc=0.0,
+                scale=1.0,
+                size=(batch_size, self.z_dimension),
             )
             g_loss = self.combined.train_on_batch(noise, y_real)
             # Save the progress
@@ -94,7 +103,7 @@ class DCGAN:
                 print(
                     f"{epoch} - D_loss: {round(d_loss[0], 4)}"
                     f" D_acc: {round(d_loss[1], 4)}"
-                    f" G_loss: {round(g_loss, 4)}"
+                    f" G_loss: {round(g_loss, 4)}",
                 )
                 self.sample_images(epoch)
         self.sample_images("final")
@@ -109,7 +118,9 @@ class DCGAN:
         """
         r, c = 5, 5
         noise = np.random.normal(
-            loc=0.0, scale=1.0, size=(r * c, self.z_dimension)
+            loc=0.0,
+            scale=1.0,
+            size=(r * c, self.z_dimension),
         )
         gen_imgs = self.generator.predict(noise)
         gen_imgs = 0.5 * gen_imgs + 0.5

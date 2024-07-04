@@ -40,11 +40,11 @@ class CVAE(Model):
     def build_encoder(self) -> None:
         self.encoder.add(InputLayer(input_shape=(28, 28, 1)))
         self.encoder.add(
-            Conv2D(filters=32, kernel_size=3, strides=2, padding="same")
+            Conv2D(filters=32, kernel_size=3, strides=2, padding="same"),
         )
         self.encoder.add(Activation("relu"))
         self.encoder.add(
-            Conv2D(filters=64, kernel_size=3, strides=2, padding="same")
+            Conv2D(filters=64, kernel_size=3, strides=2, padding="same"),
         )
         self.encoder.add(Activation("relu"))
         self.encoder.add(Flatten())
@@ -58,18 +58,26 @@ class CVAE(Model):
         self.decoder.add(Reshape(target_shape=(7, 7, 32)))
         self.decoder.add(
             Conv2DTranspose(
-                filters=64, kernel_size=3, strides=2, padding="same"
-            )
+                filters=64,
+                kernel_size=3,
+                strides=2,
+                padding="same",
+            ),
         )
         self.decoder.add(Activation("relu"))
         self.decoder.add(
             Conv2DTranspose(
-                filters=32, kernel_size=3, strides=2, padding="same"
-            )
+                filters=32,
+                kernel_size=3,
+                strides=2,
+                padding="same",
+            ),
         )
         self.decoder.add(Activation("relu"))
         self.decoder.add(
-            Conv2DTranspose(filters=1, kernel_size=3, strides=1, padding="same")
+            Conv2DTranspose(
+                filters=1, kernel_size=3, strides=1, padding="same"
+            ),
         )
         self.decoder.summary()
 
@@ -95,7 +103,10 @@ class CVAE(Model):
 
 
 def log_normal_pdf(
-    sample: tf.Tensor, mean: tf.Tensor, logvar: tf.Tensor, raxis: int = 1
+    sample: tf.Tensor,
+    mean: tf.Tensor,
+    logvar: tf.Tensor,
+    raxis: int = 1,
 ) -> tf.Tensor:
     log2pi = tf.math.log(2.0 * np.pi)
     return tf.reduce_sum(
@@ -109,7 +120,8 @@ def compute_loss(model: CVAE, x: tf.Tensor) -> tf.Tensor:
     z = model.reparameterize(mean, logvar)
     x_logit = model.decode(z)
     cross_ent = tf.nn.sigmoid_cross_entropy_with_logits(
-        logits=x_logit, labels=x
+        logits=x_logit,
+        labels=x,
     )
     logpx_z = -tf.reduce_sum(cross_ent, axis=[1, 2, 3])
     logpz = log_normal_pdf(z, 0.0, 0.0)
@@ -127,12 +139,14 @@ def train_step(model: CVAE, x: tf.Tensor, optimizer: Optimizer) -> None:
             gradients,
             model.trainable_variables,
             strict=False,
-        )
+        ),
     )
 
 
 def generate_and_save_images(
-    model: CVAE, epoch: int, test_sample: tf.Tensor
+    model: CVAE,
+    epoch: int,
+    test_sample: tf.Tensor,
 ) -> None:
     mean, logvar = model.encode(test_sample)
     z = model.reparameterize(mean, logvar)
@@ -168,7 +182,7 @@ def main() -> None:
         elbo = -loss.result()
         print(
             f"Epoch: {epoch}, Test set ELBO: {elbo}, "
-            f"time elapse for current epoch: {end_time - start_time}"
+            f"time elapse for current epoch: {end_time - start_time}",
         )
         if epoch % 10 == 0:
             generate_and_save_images(model, epoch, x_test[:10])

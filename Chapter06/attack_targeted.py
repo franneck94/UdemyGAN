@@ -21,7 +21,9 @@ x_test, y_test = mnist_data.get_test_set()
 
 
 def adversarial_noise(
-    model: Model, image: np.ndarray, label: np.ndarray
+    model: Model,
+    image: np.ndarray,
+    label: np.ndarray,
 ) -> tf.Tensor:
     loss_object = tf.keras.losses.CategoricalCrossentropy()
     with tf.GradientTape() as tape:
